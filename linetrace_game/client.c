@@ -5,7 +5,7 @@
 #include <arpa/inet.h>
 #include <pthread.h>
 #include <semaphore.h>
-#include "server.h"
+#include "../server.h"
 
 int main(){
     DGIST dgist;//DGIST 구조를 받아왔다.
