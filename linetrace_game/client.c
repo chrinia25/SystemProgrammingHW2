@@ -5,7 +5,7 @@
 #include <arpa/inet.h>
 #include <pthread.h>
 #include <semaphore.h>
-#include "server.h"
+#include "../server.h"
 
 int my_score = 0;
 int direction = 0;
