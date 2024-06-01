@@ -22,22 +22,22 @@ void drive(int row, int col){
     int dir = [0,0,0,0];
     //동남서북으로 떨어진 거리를 계산
     if(row - player_me.row >= 0){
-        dir.at(0) = row - player_me.row;
+        dir[0] = row - player_me.row;
     }
     else{
-        dir.at(2) = (row - player_me.row)*-1;
+        dir[2] = (row - player_me.row)*-1;
     }
 
     if(row - player_me.row >= 0){
-        dir.at(3) = col - player_me.col;
+        dir[3] = col - player_me.col;
     }
     else{
-        dir.at(1) = (col - player_me.col)*-1;
+        dir[1] = (col - player_me.col)*-1;
     }
 
     //현재 방향이 맞으면 계속 직진
     for(int i = 0; i<dir.size(); i++){
-        if(dir.at(i)>0 && direction == i){
+        if(dir[i]>0 && direction == i){
             next_action = 0;
             return;
         }
@@ -46,10 +46,10 @@ void drive(int row, int col){
     //현재 방향과 목표에 따른 방향 전환
     //남
     if( direction == 1 ){
-        if(dir.at(0)>0){
+        if(dir[0]>0){
             next_action = -1;
         }
-        else if(dir.at(2)>0){
+        else if(dir[2]>0){
             next_action = 1;
         }
         else{
@@ -59,10 +59,10 @@ void drive(int row, int col){
     }
     //북
     else if(direction == 3){
-        if(dir.at(0)>0){
+        if(dir[0]>0){
             next_action = 1;
         }
-        else if(dir.at(2)>0){
+        else if(dir[2]>0){
             next_action = -1;
         }
         else{
@@ -72,10 +72,10 @@ void drive(int row, int col){
     }
     //동
     else if(direction == 0){
-        if(dir.at(1)>0){
+        if(dir[1]>0){
             next_action = 1;
         }
-        else if(dir.at(3)>0){
+        else if(dir[3]>0){
             next_action = -1;
         }
         else{
@@ -85,10 +85,10 @@ void drive(int row, int col){
     }
     //서
     else if(direction == 2){
-        if(dir.at(1)>0){
+        if(dir[1]>0){
             next_action = -1;
         }
-        else if(dir.at(3)>0){
+        else if(dir[3]>0){
             next_action = 1;
         }
         else{
@@ -114,7 +114,7 @@ void drive_outline(){
         }
 
     }
-    //현재 외곽 o, anti-clockwise일 때
+    //현재 외곽 o, counter-clockwise일 때
     else if((player_me.row == 0 ||player_me.col == 0 || player_me.row == 4 ||player_me.col == 4) && cycle_dir == ANTI_CLOCKWISE){
         if(player_me.row == 0 && 0<player_me.col =< 4){
             drive(0,0);
@@ -148,7 +148,7 @@ int main(){
         }
 
         //두 플레이어가 다른 위치
-        else if(dgist.player[0].row == QR_data.at(0) && dgist.player[0].col == QR_data.at(1)){
+        else if(dgist.player[0].row == QR_data[0] && dgist.player[0].col == QR_data[1]){
             player_you = dgist.player[1];
             player_me = dgist.player[0];
         }
@@ -199,7 +199,7 @@ int main(){
         }
 
         //두 플레이어가 다른 위치
-        else if(dgist.player[0].row == QR_data.at(0) && dgist.player[0].col == QR_data.at(1)){
+        else if(dgist.player[0].row == QR_data[0] && dgist.player[0].col == QR_data[1]){
             player_you = dgist.player[1];
             player_me = dgist.player[0];
         }
