@@ -121,6 +121,6 @@ int main(int argc, char *argv[]) {
     pthread_join(sendThread, NULL);
 
     close(sock);
-    pthread_mutex_destroy(&lock);p
+    pthread_mutex_destroy(&lock);
     return 0;
 }
