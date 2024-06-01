@@ -49,8 +49,8 @@ void* receiveData(void* arg) {
             printf("Score: %d\n", client.score);
             printf("Bomb: %d\n", client.bomb);
         }
-        printf("========== PRINT DONE ==========\n");
         pthread_mutex_unlock(&lock);
+        printf("========== PRINT DONE ==========\n");
     }
     return NULL;
 }
