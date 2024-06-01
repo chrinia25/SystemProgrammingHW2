@@ -8,12 +8,89 @@
 #include "server.h"
 
 int my_score = 0;
-
+int direction = 0;
+int next_action;
 client_info player_you;
 client_info player_me;
 
 void drive(int row, int col){
+    int dir = [0,0,0,0];
+    //동남서북으로 떨어진 거리를 계산
+    if(row - player_me.row >= 0){
+        dir.at(0) = row - player_me.row;
+    }
+    else{
+        dir.at(2) = (row - player_me.row)*-1;
+    }
 
+    if(row - player_me.row >= 0){
+        dir.at(3) = col - player_me.col;
+    }
+    else{
+        dir.at(1) = (col - player_me.col)*-1;
+    }
+
+    //현재 방향이 맞으면 계속 직진
+    for(int i = 0; i<dir.size(); i++){
+        if(dir.at(i)>0 && direction == i){
+            next_action = 0;
+            return;
+        }
+    }
+
+    //현재 방향과 목표에 따른 방향 전환
+    //남
+    if( direction == 1 ){
+        if(dir.at(0)>0){
+            next_action = -1;
+        }
+        else if(dir.at(2)>0){
+            next_action = 1;
+        }
+        else{
+            next_action = 1;
+        }
+        return;
+    }
+    //북
+    else if(direction == 3){
+        if(dir.at(0)>0){
+            next_action = 1;
+        }
+        else if(dir.at(2)>0){
+            next_action = -1;
+        }
+        else{
+            next_action = -1;
+        }
+        return;
+    }
+    //동
+    else if(direction == 0){
+        if(dir.at(1)>0){
+            next_action = 1;
+        }
+        else if(dir.at(3)>0){
+            next_action = -1;
+        }
+        else{
+            next_action = -1;
+        }
+        return;
+    }
+    //서
+    else if(direction == 2){
+        if(dir.at(1)>0){
+            next_action = -1;
+        }
+        else if(dir.at(3)>0){
+            next_action = 1;
+        }
+        else{
+            next_action = 1;
+        }
+        return;
+    }
 }
 
 int main(){
