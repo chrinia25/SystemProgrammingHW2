@@ -72,7 +72,9 @@ void* sendAction(void* arg) {
             perror("Send error");
             exit(EXIT_FAILURE);
         }
+        printf("pthread_mutex_unlock - before");
         pthread_mutex_unlock(&lock);
+        printf("pthread_mutex_unlock - after");
     }
     return NULL;
 }
