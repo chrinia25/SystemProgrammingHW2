@@ -65,8 +65,9 @@ void* sendAction(void* arg) {
         cAction.row = row;
         cAction.col = col;
         cAction.action = (enum Action)action;
-
+        printf("pthread_mutex_lock - before");
         pthread_mutex_lock(&lock);
+        printf("pthread_mutex_lock - after");
         if (send(sock, &cAction, sizeof(ClientAction), 0) < 0) {
             perror("Send error");
             exit(EXIT_FAILURE);
@@ -118,6 +119,6 @@ int main(int argc, char *argv[]) {
     pthread_join(sendThread, NULL);
 
     close(sock);
-    pthread_mutex_destroy(&lock);
+    pthread_mutex_destroy(&lock);p
     return 0;
 }
