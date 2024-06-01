@@ -20,8 +20,8 @@ inline void stable_turn_right(int file_dir){
 }
 
 inline void adjust_left(int file_dir){
-    while(leftin == LOW && rightin == LOW){
-        flag = controlMotors(file_dir, 0, 0, 1, 30);
+    while(!(leftin == LOW || rightin == LOW)){
+        flag = controlMotors(file_dir, 1, 0, 1, 50);
         leftout = digitalRead(LEFT1);
         leftin = digitalRead(LEFT2);
         rightin = digitalRead(RIGHT1);
@@ -30,8 +30,8 @@ inline void adjust_left(int file_dir){
     flag = 0;
 }
 inline void adjust_right(int file_dir){
-    while(leftin == LOW && rightin == LOW){
-        controlMotors(file_dir, 1, 30, 0, 0);
+    while(!(leftin == LOW || rightin == LOW)){
+        controlMotors(file_dir, 1, 50, 1, 0);
         leftout = digitalRead(LEFT1);
         leftin = digitalRead(LEFT2);
         rightin = digitalRead(RIGHT1);
@@ -58,10 +58,10 @@ int main() {
 
     // Initialize GPIO pins
     setup();
-    int leftout = digitalRead(LEFT1);
-    int leftin = digitalRead(LEFT2);
-    int rightin = digitalRead(RIGHT1);
-    int rightout = digitalRead(RIGHT2);
+    leftout = digitalRead(LEFT1);
+    leftin = digitalRead(LEFT2);
+    rightin = digitalRead(RIGHT1);
+    rightout = digitalRead(RIGHT2);
     while (1) {
         leftout = digitalRead(LEFT1);
         leftin = digitalRead(LEFT2);
@@ -69,16 +69,15 @@ int main() {
         rightout = digitalRead(RIGHT2);
         printf("%d, %d, %d, %d\n",leftout,leftin,rightin,rightout);
         // Logic to control the motors based on sensor readings
-        if(is_intersection(leftout,leftin,rightin,rightout)) stable_turn_right(file);
-        else if (leftout == HIGH && leftin == LOW && rightin == HIGH && rightout == HIGH) {
+        if(is_intersection(leftout,leftin,rightin,rightout))    stable_turn_right(file);
+        else if (leftout == LOW) {
             adjust_left(file);
-        } else if (leftout == HIGH && leftin == HIGH && rightin == LOW && rightout == HIGH) {
+        } else if (rightout == LOW) {
             adjust_right(file);
-        } else if (leftin  == LOW && rightin == LOW){
+        } else {
             controlMotors(file,1,70,1,70);
         } 
-        else controlMotors(file,0,0,0,0);
-        delay(20);
+        delay(10);
     }
 
     // Close the I2C device file
