@@ -27,10 +27,10 @@ void controlMotors(int fd, unsigned char leftDir, unsigned char leftSpeed, unsig
 
 void turn_left(int file)
 {
-    int leftout;
-    int leftin;
-    int rightin;
-    int rightout;
+    int leftout = digitalRead(LEFT1);
+    int leftin = digitalRead(LEFT2);
+    int rightin = digitalRead(RIGHT1);
+    int rightout = digitalRead(RIGHT2);
 
     while(!(leftin  == LOW && rightin == LOW))
     {
@@ -46,11 +46,10 @@ void turn_left(int file)
 
 void turn_right(int file)
 {
-    int leftout;
-    int leftin;
-    int rightin;
-    int rightout;
-
+    int leftout = digitalRead(LEFT1);
+    int leftin = digitalRead(LEFT2);
+    int rightin = digitalRead(RIGHT1);
+    int rightout = digitalRead(RIGHT2);
     while(!(leftin  == LOW && rightin == LOW))
     {
         controlMotors(file, 1, 90, 0, 90);
@@ -66,12 +65,12 @@ void turn_right(int file)
 
 void go_straight(int file)
 {
-    int leftout;
-    int leftin;
-    int rightin;
-    int rightout;
+    int leftout = digitalRead(LEFT1);
+    int leftin = digitalRead(LEFT2);
+    int rightin = digitalRead(RIGHT1);
+    int rightout = digitalRead(RIGHT2);
 
-    while(!(leftin  == LOW && rightin == LOW))
+    while((leftout  == LOW || rightout == LOW))
     {
         controlMotors(file, 1, 180, 1, 180);
         delay(1);
