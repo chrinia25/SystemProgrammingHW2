@@ -6,11 +6,6 @@
 #include <pthread.h>
 #include "client_network.h"
 
-#ifndef SERVER_HEADER
-#define SERVER_HEADER
-#include "server.h"
-#endif
-
 int sock;
 pthread_mutex_t lock;
 
@@ -77,23 +72,28 @@ void* sendAction(void* arg) {
         //printf("pthread_mutex_lock - after");
         //if (send(sock, &cAction, sizeof(ClientAction), 0) < 0) {
         if(*(cA_info->dirty_pointer)){
-            if (send(sock, cA_info->cAction_point, sizeof(ClientAction), 0) < 0) {
+            if (send(sock, cA_info->cAction_point, sizeof(ClientAction), 0) <=0) {
                 perror("Send error");
                 exit(EXIT_FAILURE);
             }
         //printf("pthread_mutex_unlock - before");
         }
+        printf("%d %d %d\n", cA_info->cAction_point->row, cA_info->cAction_point->col, cA_info->cAction_point->action);
         pthread_mutex_unlock(&lock);
         //printf("pthread_mutex_unlock - after");
     }
     return NULL;
 }
 
-int networking(char*server_ip, char* server_port_str,cAction_info* cA_info) {
+void* networking(void* arg) {
     //if (argc != 3) {
     //    fprintf(stderr, "Usage: %s <server_ip> <server_port>\n", argv[0]);
     //    return 1;
     //}
+    networking_info* ninfo = (networking_info*)arg;
+    char* server_port_str = ninfo->server_port_str;
+    char* server_ip = ninfo->server_ip;
+    cAction_info* cA_info = ninfo->cA_info;
 
     //const char *server_ip = argv[1];
     int server_port = atoi(server_port_str);
@@ -101,7 +101,7 @@ int networking(char*server_ip, char* server_port_str,cAction_info* cA_info) {
 
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         printf("\n Socket creation error \n");
-        return -1;
+        return NULL;
     }
 
     serv_addr.sin_family = AF_INET;
@@ -109,15 +109,17 @@ int networking(char*server_ip, char* server_port_str,cAction_info* cA_info) {
 
     if (inet_pton(AF_INET, server_ip, &serv_addr.sin_addr) <= 0) {
         printf("\nInvalid address/ Address not supported \n");
-        return -1;
+        return NULL;
     }
 
     if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
         printf("\nConnection Failed \n");
-        return -1;
+        return NULL;
     }
 
     printf("Connected to server at %s:%d\n", server_ip, server_port);
+    
+    printf("nInfo row %d col %d action %d\n",ninfo->cA_info->cAction_point->row,ninfo->cA_info->cAction_point->col,ninfo->cA_info->cAction_point->action);
 
     pthread_t recvThread, sendThread;
     pthread_mutex_init(&lock, NULL);
@@ -132,5 +134,5 @@ int networking(char*server_ip, char* server_port_str,cAction_info* cA_info) {
 
     close(sock);
     pthread_mutex_destroy(&lock);
-    return 0;
+    return NULL;
 }
