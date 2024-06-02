@@ -136,6 +136,7 @@ void drive_outline(){
     }
 }
 int main(){
+    
     while(true){
         DGIST dgist;//DGIST 구조를 받아왔다.
         Node served_map[MAP_ROW][MAP_COL]; 
@@ -143,7 +144,7 @@ int main(){
         //두 플레이어의 데이터를 받아서 저장
         int QR_data_a = QR_data / 10;
         int QR_data_b = QR_data % 10;
-        
+
         if(dgist.player[0].row == dgist.player[1].row && dgist.player[0].col == dgist.player[1].col){
             //두 플레이어가 같은 위치
             //bomb갯수 비교, 점수 비교(아이템이 있던 경우 점수가 바뀌므로 주의)
@@ -192,8 +193,10 @@ int main(){
     while(true){
         DGIST dgist;//DGIST 구조를 받아왔다.
         Node served_map[MAP_ROW][MAP_COL]; 
-        string QR_data = ""; //QR 인식 데이터. 현재 위치.
+        int QR_data = 0; //QR 인식 데이터. 현재 위치.
         //두 플레이어의 데이터를 받아서 저장
+        int QR_data_a = QR_data / 10;
+        int QR_data_b = QR_data % 10;
 
         if(dgist.player[0].row == dgist.player[1].row && dgist.player[0].col == dgist.player[1].col){
             //두 플레이어가 같은 위치
