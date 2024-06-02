@@ -22,8 +22,8 @@ void* receiveData(void* arg) {
         pthread_mutex_lock(&lock);
         // Print map and player information
         printf("========== PRINT MAP ==========\n");
-        for (int j = 0; j < MAP_COL; j++) {
-            for (int i = 0; i < MAP_ROW; i++) {
+        for (int i = 0; i < MAP_ROW; i++) {
+            for (int j = 0; j < MAP_COL; j++) {
                 Item tmpItem = dgist.map[i][j].item;
                 switch (tmpItem.status) {
                     case nothing:
