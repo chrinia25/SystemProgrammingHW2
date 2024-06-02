@@ -5,7 +5,7 @@
     #include <opencv2/imgcodecs.hpp>
     #include <iostream>
     #include "qrCode_C.h"
-
+    
     using namespace cv;
     using namespace std;
 
@@ -32,11 +32,11 @@
             // Detect and decode QR code
             vector <Point> points;
             string qrCodeText = qrDecoder.detectAndDecode(brightenedImage, points);
-            int num_qrCodeText=stoi(qrCodeText);
-            cap.release();
-            return num_qrCodeText;
-
+            if (qrCodeText.size() > 0){
+                int num_qrCodeText = stoi(qrCodeText);
+                cap.release();
+                return num_qrCodeText;
+            }
         }
-
-
+        return -1;
     }

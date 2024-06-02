@@ -3,6 +3,8 @@
 
 int main(){
     int ans;
-    ans=qrCodedetect();
+    ans = read_QR();
     printf("%d\n",ans);
+    
+    return 0;
 }

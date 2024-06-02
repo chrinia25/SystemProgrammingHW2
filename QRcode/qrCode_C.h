@@ -1,18 +1,14 @@
-#ifndef __C_CPP_MIX_H__
-#define __C_CPP_MIX_H__
-#ifdef __cplusplus
+#ifndef QRCODE_C_H
+#define QRCODE_C_H
 
+#ifdef __cplusplus
 extern "C" {
 #endif
-    int qrCodedetect();
 
-    
-
-
+int read_QR();
 
 #ifdef __cplusplus
 }
-
 #endif
 
 #endif
