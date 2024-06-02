@@ -9,6 +9,14 @@
 #include "modified_linetracing.h"
 #include "qrCode_C.h"
 
+typedef struct{
+    int visited;
+    int has_bomb;
+    int parent_pos[2];
+}bfs_node;
+
+bfs_node bfs_nodes[5][5]; 
+
 DGIST dgist;
 
 int next_action = 1;
@@ -17,12 +25,6 @@ int curr_node[2] = {-1,-1};
 int before_node = 1;
 int leftout, leftin, rightin, rightout;
 int flag = 0;
-inline void stable_turn_left(int file_dir){
-    turn_left(file_dir);
-}
-inline void stable_turn_right(int file_dir){
-    turn_right(file_dir);
-}
 inline void adjust_left(int file_dir){
     while(!(leftin == LOW || rightin == LOW)){
         flag = controlMotors(file_dir, 1, 0, 1, 50);
@@ -43,38 +45,77 @@ inline void adjust_right(int file_dir){
     }
     flag = 0;
 }
+
+int bfs(int target_x, int target_y){
+    for(int i = 0;i < 5; i++){
+        for(int j = 0;j < 5; i++){
+            bfs_nodes[i][j].parent_pos[0] = 0;
+            bfs_nodes[i][j].parent_pos[1] = 0;
+            bfs_nodes[i][j].visited = 0;
+            bfs_nodes[i][j].has_bomb = (dgist.map[i][j].item.status == 2) ? 1 : 0 ;
+        }
+    }
+    bfs_nodes[curr_node[0]][curr_node[1]].visited = 1;
+    int flag = 1;
+    while(flag){
+        flag = 0
+        for(int i = 0; i < 5; i++){
+            for(int j = 0; i < 5; j++){
+                if(bfs_nodes[i][j] != visited){
+                    
+                }
+            }
+        }
+    }
+    
+
+}
+
 int find_path(int target_x, int target_y){
     if(before_node == 0){
         switch(curr_direction){
             case 0://east
-                if(dgist.map[curr_node[0] + 1][curr_node[1]].item.status == 2){
-                    return -2;
+                if(dgist.map[curr_node[0]][curr_node[1] + 1].item.status == 2){
+                    if(dgist.map[curr_node[0]][curr_node[1]].item.status == 2) return 2;
+                    else{
+                        turn_left();
+                        return find_path(target_x, target_y);
+                    }
                 }
                 break;
             case 1://south
-                if(dgist.map[curr_node[0]][curr_node[1] - 1].item.status == 2){
-                    return -2;
+                if(dgist.map[curr_node[0] + 1][curr_node[1]].item.status == 2){
+                    if(dgist.map[curr_node[0]][curr_node[1]].item.status == 2) return 2;
+                    else{
+                        turn_left();
+                        return find_path(target_x, target_y);
+                    }
                 }
                 break;
             case 2://west
-                if(dgist.map[curr_node[0] - 1][curr_node[1]].item.status == 2){
-                    return -2;
+                if(dgist.map[curr_node[0]][curr_node[1] - 1].item.status == 2){
+                    if(dgist.map[curr_node[0]][curr_node[1]].item.status == 2) return 2;
+                    else{
+                        turn_left();
+                        return find_path(target_x, target_y);
+                    }
                 }
                 break;
             case 3://north
-                if(dgist.map[curr_node[0]][curr_node[1] + 1].item.status == 2){
-                    return -2;
+                if(dgist.map[curr_node[0] - 1][curr_node[1]].item.status == 2){
+                    if(dgist.map[curr_node[0]][curr_node[1]].item.status == 2) return 2;
+                    else{
+                        turn_left();
+                        return find_path(target_x, target_y);
+                    }
                 }
                 break;
         }
+        return 2;
     }
-        
+    target_direction = bfs(target_x,target_y);
+    return (target_direction - curr_direction) % 4;
 }
-
-
-
-
-
 
 int main(int argc, char* argv[]){
     int file;
@@ -121,10 +162,10 @@ int main(int argc, char* argv[]){
             temp_x = qr / 10;
             temp_y = qr % 10;
             if(temp_x != curr_node[0] || temp_y != curr_node[1]){
-                if((temp_x  == curr_node[0] + 1) && (temp_y == curr_node[1])) curr_direction = 0;
-                else if((temp_x  == curr_node[0]) && (temp_y == curr_node[1] - 1)) curr_direction = 1;
-                else if((temp_x  == curr_node[0] - 1) && (temp_y == curr_node[1])) curr_direction = 2;
-                else if((temp_x  == curr_node[0]) && (temp_y == curr_node[1] + 1)) curr_direction = 3;
+                if((temp_x  == curr_node[0]) && (temp_y == curr_node[1] + 1)) curr_direction = 0;
+                else if((temp_x  == curr_node[0] + 1) && (temp_y == curr_node[1])) curr_direction = 1;
+                else if((temp_x  == curr_node[0]) && (temp_y == curr_node[1] - 1)) curr_direction = 2;
+                else if((temp_x  == curr_node[0] - 1) && (temp_y == curr_node[1])) curr_direction = 3;
                 before_node = 1;
                 curr_node[0] = temp_x;
                 curr_node[1] = temp_y;
@@ -151,6 +192,7 @@ int main(int argc, char* argv[]){
                 case 1:
                     turn_right();
                     break;
+                case 2:
             }
         }
         else if (leftout == LOW) {
