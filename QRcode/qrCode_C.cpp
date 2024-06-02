@@ -9,7 +9,7 @@
     using namespace cv;
     using namespace std;
 
-    int qrCodedetect() {
+    int read_QR(){
 
         VideoCapture cap(0); // Open the default camera
         if (!cap.isOpened()) {  // Check if camera opened successfully
@@ -28,7 +28,7 @@
             }
             cv::Mat brightenedImage;
             cv::cvtColor(frame, brightenedImage, cv::COLOR_BGR2GRAY);
-            zq
+        
             // Detect and decode QR code
             vector <Point> points;
             string qrCodeText = qrDecoder.detectAndDecode(brightenedImage, points);
