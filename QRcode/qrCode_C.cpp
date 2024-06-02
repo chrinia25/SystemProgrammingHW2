@@ -18,7 +18,6 @@
 
         QRCodeDetector qrDecoder;
 
-        while (true) {
             Mat frame;
             cap >> frame;  // Capture frame from camera
 
@@ -32,11 +31,16 @@
             // Detect and decode QR code
             vector <Point> points;
             string qrCodeText = qrDecoder.detectAndDecode(brightenedImage, points);
+
             if (qrCodeText.size() > 0){
                 int num_qrCodeText = stoi(qrCodeText);
                 cap.release();
                 return num_qrCodeText;
             }
-        }
-        return -1;
+
+            else
+            {
+                return -1;
+            }
+
     }
