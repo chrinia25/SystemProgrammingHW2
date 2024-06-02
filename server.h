@@ -1,4 +1,4 @@
-`#define MAX_CLIENTS 2
+#define MAX_CLIENTS 2
 
 #define _MAP_ROW 4
 #define _MAP_COL 4

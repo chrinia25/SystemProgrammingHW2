@@ -49,8 +49,8 @@ void* receiveData(void* arg) {
             printf("Score: %d\n", client.score);
             printf("Bomb: %d\n", client.bomb);
         }
-        printf("========== PRINT DONE ==========\n");
         pthread_mutex_unlock(&lock);
+        printf("========== PRINT DONE ==========\n");
     }
     return NULL;
 }
@@ -65,13 +65,16 @@ void* sendAction(void* arg) {
         cAction.row = row;
         cAction.col = col;
         cAction.action = (enum Action)action;
-
+        printf("pthread_mutex_lock - before");
         pthread_mutex_lock(&lock);
+        printf("pthread_mutex_lock - after");
         if (send(sock, &cAction, sizeof(ClientAction), 0) < 0) {
             perror("Send error");
             exit(EXIT_FAILURE);
         }
+        printf("pthread_mutex_unlock - before");
         pthread_mutex_unlock(&lock);
+        printf("pthread_mutex_unlock - after");
     }
     return NULL;
 }
