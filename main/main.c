@@ -61,14 +61,72 @@ int bfs(int target_x, int target_y){
         flag = 0
         for(int i = 0; i < 5; i++){
             for(int j = 0; i < 5; j++){
-                if(bfs_nodes[i][j] != visited){
-                    
+                if(bfs_nodes[i][j].visited == 0){
+                    if(i >  0){
+                        if(bfs_nodes[i-1][j].visited && bfs_nodes[i-1][j].has_bomb == 0){
+                            bfs_nodes[i][j].parent_pos[0] = i-1;
+                            bfs_nodes[i][j].parent_pos[1] = j;
+                            bfs_nodes[i][j].visited = 1;
+                            flag = 1;
+                        }
+                    }
+                    else if(i < 4){
+                        if(bfs_nodes[i+1][j].visited && bfs_nodes[i+1][j].has_bomb == 0){
+                            bfs_nodes[i][j].parent_pos[0] = i + 1;
+                            bfs_nodes[i][j].parent_pos[1] = j;
+                            bfs_nodes[i][j].visited = 1;
+                            flag = 1;
+                        }
+                    }
+                    else if(j >  0){
+                        if(bfs_nodes[i][j-1].visited && bfs_nodes[i][j-1].has_bomb == 0){
+                            bfs_nodes[i][j].parent_pos[0] = i;
+                            bfs_nodes[i][j].parent_pos[1] = j - 1;
+                            bfs_nodes[i][j].visited = 1;
+                            flag = 1;
+                        }
+                    }
+                    else if(j <  4){
+                        if(bfs_nodes[i][j+1].visited && bfs_nodes[i][j+1].has_bomb == 0){
+                            bfs_nodes[i][j].parent_pos[0] = i;
+                            bfs_nodes[i][j].parent_pos[1] = j + 1;
+                            bfs_nodes[i][j].visited = 1;
+                            flag = 1;
+                        }
+                    }
                 }
             }
         }
     }
-    
-
+    if(bfs_nodes[target_x][target_y].visited){
+        int bfs_last_node[2];
+        int bfs_curr_node[2];
+        bfs_last_node[0] = target_x;
+        bfs_last_node[1] = target_y;
+        bfs_curr_node[0] = bfs_nodes[target_x][target_y].parent_pos[0];
+        bfs_curr_node[1] = bfs_nodes[target_x][target_y].parent_pos[1];
+        while(!(bfs_curr_node[0] == curr_node[0] && bfs_curr_node[1] == curr_node[1])){
+            bfs_last_node[0] = bfs_curr_node[0];
+            bfs_last_node[1] = bfs_curr_node[1];
+            bfs_curr_node[0] = bfs_nodes[bfs_last_node[0]][bfs_last_node[1]].parent_pos[0];
+            bfs_curr_node[1] = bfs_nodes[bfs_last_node[0]][bfs_last_node[1]].parent_pos[1];
+        }
+        int target_direction;
+        if(bfs_last_node[0] == curr_node[0] + 1){
+            target_direction = 1;
+        }
+        else if(bfs_last_node[0] == curr_node[0] - 1){
+            target_direction = 3;
+        }
+        else if(bfs_last_node[1] == curr_node[1] + 1){
+            target_direction = 0;
+        }
+        else if(bfs_last_node[1] == curr_node[1] - 1){
+            target_direction = 2;
+        }
+        return ((target_direction - curr_direction) % 4 == 3)? -1 : ((target_direction - curr_direction) % 4);
+    }    
+    else return -2;//not reachable!
 }
 
 int find_path(int target_x, int target_y){
@@ -79,6 +137,8 @@ int find_path(int target_x, int target_y){
                     if(dgist.map[curr_node[0]][curr_node[1]].item.status == 2) return 2;
                     else{
                         turn_left();
+                        curr_direction = (curr_direction + 2) % 4;
+                        before_node = 1;
                         return find_path(target_x, target_y);
                     }
                 }
@@ -88,6 +148,8 @@ int find_path(int target_x, int target_y){
                     if(dgist.map[curr_node[0]][curr_node[1]].item.status == 2) return 2;
                     else{
                         turn_left();
+                        curr_direction = (curr_direction + 2) % 4;
+                        before_node = 1;
                         return find_path(target_x, target_y);
                     }
                 }
@@ -97,6 +159,8 @@ int find_path(int target_x, int target_y){
                     if(dgist.map[curr_node[0]][curr_node[1]].item.status == 2) return 2;
                     else{
                         turn_left();
+                        curr_direction = (curr_direction + 2) % 4;
+                        before_node = 1;
                         return find_path(target_x, target_y);
                     }
                 }
@@ -106,6 +170,8 @@ int find_path(int target_x, int target_y){
                     if(dgist.map[curr_node[0]][curr_node[1]].item.status == 2) return 2;
                     else{
                         turn_left();
+                        curr_direction = (curr_direction + 2) % 4;
+                        before_node = 1;
                         return find_path(target_x, target_y);
                     }
                 }
@@ -113,20 +179,17 @@ int find_path(int target_x, int target_y){
         }
         return 2;
     }
-    target_direction = bfs(target_x,target_y);
-    return (target_direction - curr_direction) % 4;
+    return bfs(target_x,target_y);
 }
 
 int main(int argc, char* argv[]){
     int file;
     const char *filename = "/dev/i2c-1";
-
     // Open the I2C bus
     if ((file = open(filename, O_RDWR)) < 0) {
         perror("Failed to open the i2c bus\n");
         return 1;
     }
-
     // Specify the I2C slave address
     if (ioctl(file, I2C_SLAVE, I2C_ADDR) < 0) {
         perror("Failed to acquire bus access and/or talk to slave");
@@ -181,18 +244,23 @@ int main(int argc, char* argv[]){
         rightin = digitalRead(RIGHT1);
         rightout = digitalRead(RIGHT2);
         
-        if(is_intersection){
+        if(is_intersection(leftout, leftin, rightin, rightout)){
             switch(next_action){
                 case -1:
                     turn_left();
+                    curr_direction = (curr_direction - 1) / 4;
                     break();
                 case 0:
                     go_straight();
                     break;
                 case 1:
                     turn_right();
+                    curr_direction = (curr_direction + 1) / 4;
                     break;
                 case 2:
+                    turn_left();
+                    turn_left();
+                    curr_direction = (curr_direction + 2) / 4;
             }
         }
         else if (leftout == LOW) {
