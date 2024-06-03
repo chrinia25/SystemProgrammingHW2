@@ -572,7 +572,7 @@ int main(int argc, char* argv[]){
                     curr_direction = (curr_direction + 1) / 4;
                     break;
                 case 2:
-                    go_back(int file);
+                    go_back(file);
                     curr_direction = (curr_direction + 2) / 4;
             }
         }
