@@ -373,6 +373,7 @@ void* sendAction(void* arg) {
         // }
         //printf("%d %d %d\n", cA_info->cAction_point->row, cA_info->cAction_point->col, cA_info->cAction_point->action);
         //printf("pthread_mutex_unlock - after");
+        }
     }
     return NULL;
 }
