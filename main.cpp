@@ -228,7 +228,7 @@ void update_action(){
     }
 }
 
-void* read_qr(){
+void* read_qr(void * arg){
     cv::VideoCapture cap(0);
     cv::QRCodeDetector qrDecoder;
     cv::Mat frame;
