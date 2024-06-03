@@ -78,7 +78,6 @@ void* sendAction(void* arg) {
             }
         //printf("pthread_mutex_unlock - before");
         }
-        printf("%d %d %d\n", cA_info->cAction_point->row, cA_info->cAction_point->col, cA_info->cAction_point->action);
         pthread_mutex_unlock(&lock);
         //printf("pthread_mutex_unlock - after");
     }

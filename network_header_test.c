@@ -9,7 +9,7 @@
 
 int main(int argc, char *argv[]){
     if(argc != 2){
-        printf("correct usage: add ip address and port");
+        printf("correct usage: <executable name> ip_address port");
     }
     cAction_info cActionInf;
     ClientAction cp; 

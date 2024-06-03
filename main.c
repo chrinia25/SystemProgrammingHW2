@@ -34,8 +34,8 @@ pthread_mutex_t lock;
 int dgist_refreshed = 0;
 int send_data_flag = 0;
 int action[3];
-int target_node_queue = [4][2];
-
+int target_node_queue[4][2];
+int file;
 
 void send_data(int row, int col, int action_type){
     action[0] = row;
@@ -57,7 +57,7 @@ int bfs(int target_x, int target_y){
     bfs_nodes[curr_node[0]][curr_node[1]].visited = 1;
     int flag = 1;
     while(flag){
-        flag = 0
+        flag = 0;
         for(int i = 0; i < 5; i++){
             for(int j = 0; i < 5; j++){
                 if(bfs_nodes[i][j].visited == 0){
@@ -135,7 +135,7 @@ int find_path(int target_x, int target_y){
                 if(dgist.map[curr_node[0]][curr_node[1] + 1].item.status == 2){
                     if(dgist.map[curr_node[0]][curr_node[1]].item.status == 2) return 2;
                     else{
-                        turn_left();
+                        turn_left(file);
                         curr_direction = (curr_direction + 2) % 4;
                         before_node = 1;
                         return find_path(target_x, target_y);
@@ -146,7 +146,7 @@ int find_path(int target_x, int target_y){
                 if(dgist.map[curr_node[0] + 1][curr_node[1]].item.status == 2){
                     if(dgist.map[curr_node[0]][curr_node[1]].item.status == 2) return 2;
                     else{
-                        turn_left();
+                        turn_left(file);
                         curr_direction = (curr_direction + 2) % 4;
                         before_node = 1;
                         return find_path(target_x, target_y);
@@ -157,7 +157,7 @@ int find_path(int target_x, int target_y){
                 if(dgist.map[curr_node[0]][curr_node[1] - 1].item.status == 2){
                     if(dgist.map[curr_node[0]][curr_node[1]].item.status == 2) return 2;
                     else{
-                        turn_left();
+                        turn_left(file);
                         curr_direction = (curr_direction + 2) % 4;
                         before_node = 1;
                         return find_path(target_x, target_y);
@@ -168,7 +168,7 @@ int find_path(int target_x, int target_y){
                 if(dgist.map[curr_node[0] - 1][curr_node[1]].item.status == 2){
                     if(dgist.map[curr_node[0]][curr_node[1]].item.status == 2) return 2;
                     else{
-                        turn_left();
+                        turn_left(file);
                         curr_direction = (curr_direction + 2) % 4;
                         before_node = 1;
                         return find_path(target_x, target_y);
@@ -181,7 +181,7 @@ int find_path(int target_x, int target_y){
     return bfs(target_x,target_y);
 }
 
-inline void push_target_queue(int next_x, int next_y){
+void push_target_queue(int next_x, int next_y){
     for(int i = 0; i < 3; i ++){
         target_node_queue[i][0] = target_node_queue[i+1][0]; 
         target_node_queue[i][1] = target_node_queue[i+1][1];
@@ -191,33 +191,33 @@ inline void push_target_queue(int next_x, int next_y){
 }
 
 void update_action(){
-    if(curr_node.[0] == 1 && curr_node.[1] == 2 && target_node_queue[0][0] == 1 && target_node_queue[0][1] == 2){
+    if(curr_node[0] == 1 && curr_node[1] == 2 && target_node_queue[0][0] == 1 && target_node_queue[0][1] == 2){
         push_target_queue(0,0);
     }
-    else if(curr_node.[0] == 2 && curr_node.[1] == 1 && target_node_queue[0][0] == 2 && target_node_queue[0][1] == 1){
+    else if(curr_node[0] == 2 && curr_node[1] == 1 && target_node_queue[0][0] == 2 && target_node_queue[0][1] == 1){
         push_target_queue(4,0);
     }
-    else if(curr_node.[0] == 2 && curr_node.[1] == 3 && target_node_queue[0][0] == 2 && target_node_queue[0][1] == 3){
+    else if(curr_node[0] == 2 && curr_node[1] == 3 && target_node_queue[0][0] == 2 && target_node_queue[0][1] == 3){
         push_target_queue(4,4);
     }
-    else if(curr_node.[0] == 3 && curr_node.[1] == 2 && target_node_queue[0][0] == 3 && target_node_queue[0][1] == 2){
+    else if(curr_node[0] == 3 && curr_node[1] == 2 && target_node_queue[0][0] == 3 && target_node_queue[0][1] == 2){
         push_target_queue(0,4);
     }
-    else if(curr_node.[0] == 0 && curr_node.[1] == 0 && target_node_queue[0][0] == 0 && target_node_queue[0][1] == 0){
+    else if(curr_node[0] == 0 && curr_node[1] == 0 && target_node_queue[0][0] == 0 && target_node_queue[0][1] == 0){
         push_target_queue(4,0);
     } 
-    else if(curr_node.[0] == 4 && curr_node.[1] == 0 && target_node_queue[0][0] == 4 && target_node_queue[0][1] == 0){
+    else if(curr_node[0] == 4 && curr_node[1] == 0 && target_node_queue[0][0] == 4 && target_node_queue[0][1] == 0){
         push_target_queue(4,4);
     }
-    else if(curr_node.[0] == 4 && curr_node.[1] == 4 && target_node_queue[0][0] == 4 && target_node_queue[0][1] == 4){
+    else if(curr_node[0] == 4 && curr_node[1] == 4 && target_node_queue[0][0] == 4 && target_node_queue[0][1] == 4){
         push_target_queue(0,4);
     }
-    else if(curr_node.[0] == 0 && curr_node.[1] == 4 && target_node_queue[0][0] == 0 && target_node_queue[0][1] == 4){
+    else if(curr_node[0] == 0 && curr_node[1] == 4 && target_node_queue[0][0] == 0 && target_node_queue[0][1] == 4){
         push_target_queue(0,0);
     }
-    next_action = -2
+    next_action = -2;
     while(next_action != -2){
-        next_action = find_path(target_node_queue[0],target_node_queue[1])
+        next_action = find_path(target_node_queue[0][0],target_node_queue[0][1]);
     }
 }
 
@@ -231,36 +231,35 @@ void* receiveData(void* arg) {
         }
         pthread_mutex_lock(&lock);
         // // Print map and player information
-        // printf("========== PRINT MAP ==========\n");
-        // for (int i = 0; i < MAP_ROW; i++) {
-        //     for (int j = 0; j < MAP_COL; j++) {
-        //         Item tmpItem = dgist.map[i][j].item;
-        //         switch (tmpItem.status) {
-        //             case nothing:
-        //                 printf("- ");
-        //                 break;
-        //             case item:
-        //                 printf("%d ", tmpItem.score);
-        //                 break;
-        //             case trap:
-        //                 printf("x ");
-        //                 break;
-        //         }
-        //     }
-        //     printf("\n");
-        // }
-        // printf("========== PRINT DONE ==========\n");
+         printf("========== PRINT MAP ==========\n");
+         for (int i = 0; i < MAP_ROW; i++) {
+             for (int j = 0; j < MAP_COL; j++) {
+                 Item tmpItem = dgist.map[i][j].item;
+                 switch (tmpItem.status) {
+                     case nothing:
+                         printf("- ");
+                         break;
+                     case item:
+                         printf("%d ", tmpItem.score);
+                         break;
+                     case trap:
+                         printf("x ");
+                         break;
+                 }
+             }
+             printf("\n");
+         }
+         printf("========== PRINT DONE ==========\n");
 
-        // printf("========== PRINT PLAYERS ==========\n");
-        // for (int i = 0; i < MAX_CLIENTS; i++) {
-        //     client_info client = dgist.players[i];
-        //     printf("++++++++++ Player %d ++++++++++\n", i + 1);
-        //     printf("Location: (%d, %d)\n", client.row, client.col);
-        //     printf("Score: %d\n", client.score);
-        //     printf("Bomb: %d\n", client.bomb);
-        // }
-        // pthread_mutex_unlock(&lock);
-        // printf("========== PRINT DONE ==========\n");
+         printf("========== PRINT PLAYERS ==========\n");
+         for (int i = 0; i < MAX_CLIENTS; i++) {
+             client_info client = dgist.players[i];
+             printf("++++++++++ Player %d ++++++++++\n", i + 1);
+             printf("Location: (%d, %d)\n", client.row, client.col);
+             printf("Score: %d\n", client.score);
+             printf("Bomb: %d\n", client.bomb);
+         }
+         printf("========== PRINT DONE ==========\n");
     }
     return NULL;
 }
@@ -341,7 +340,6 @@ void* networking(void* arg) {
 
     printf("Connected to server at %s:%d\n", server_ip, server_port);
     
-    printf("nInfo row %d col %d action %d\n",ninfo->cA_info->cAction_point->row,ninfo->cA_info->cAction_point->col,ninfo->cA_info->cAction_point->action);
 
     pthread_t recvThread, sendThread;
     pthread_mutex_init(&lock, NULL);
@@ -359,7 +357,7 @@ void* networking(void* arg) {
     return NULL;
 }
 
-inline void adjust_left(int file_dir){
+void adjust_left(int file_dir){
     while(!(leftin == LOW || rightin == LOW)){
         flag = controlMotors(file_dir, 1, 0, 1, 50);
         leftout = digitalRead(LEFT1);
@@ -369,7 +367,7 @@ inline void adjust_left(int file_dir){
     }
     flag = 0;
 }
-inline void adjust_right(int file_dir){
+void adjust_right(int file_dir){
     while(!(leftin == LOW || rightin == LOW)){
         controlMotors(file_dir, 1, 50, 1, 0);
         leftout = digitalRead(LEFT1);
@@ -403,8 +401,6 @@ int main(int argc, char* argv[]){
     nInf->cA_info = &cActionInf;
     
     pthread_create(&networkThread, NULL, networking, (void*)nInf);
-    pthread_join(networkThread, NULL);
-    int file;
     const char *filename = "/dev/i2c-1";
     // Open the I2C bus
     if ((file = open(filename, O_RDWR)) < 0) {
@@ -429,23 +425,27 @@ int main(int argc, char* argv[]){
     int temp_x;
     int temp_y;
     int player_num = -1;
-    target_node_queue[0][0] = [1];
-    target_node_queue[0][1] = [2];
-    target_node_queue[1][0] = [2];
-    target_node_queue[1][1] = [1];
-    target_node_queue[2][0] = [3];
-    target_node_queue[2][1] = [2];
-    target_node_queue[3][0] = [2];
-    target_node_queue[3][1] = [3];
+    target_node_queue[0][0] = 1;
+    target_node_queue[0][1] = 2;
+    target_node_queue[1][0] = 2;
+    target_node_queue[1][1] = 1;
+    target_node_queue[2][0] = 3;
+    target_node_queue[2][1] = 2;
+    target_node_queue[3][0] = 2;
+    target_node_queue[3][1] = 3;
+    read_QR();
     while(1){
         //QR_read
-        qr = read_QR()
+        printf("test");
+        qr = read_QR();
+        printf("%d\n",player_num);
         if(qr != -1){
+            printf("0\n");
             if(player_num == -1){
-                if(curr_node[0] == dgist.players[0].row && curr_node[1] == dgist.players[0].column){
+                if(curr_node[0] == dgist.players[0].row && curr_node[1] == dgist.players[0].col){
                     player_num = 0;
                 }   
-                else if(curr_node[0] == dgist.players[1].row && curr_node[1] == dgist.players[1].column){
+                else if(curr_node[0] == dgist.players[1].row && curr_node[1] == dgist.players[1].col){
                     player_num = 1;
                 }   
             }
@@ -465,8 +465,10 @@ int main(int argc, char* argv[]){
                 }
                 else send_data(temp_x, temp_y, 0);
             }
+            printf("1\n");
             update_action();
         }
+        printf("2\n");
         leftout = digitalRead(LEFT1);
         leftin = digitalRead(LEFT2);
         rightin = digitalRead(RIGHT1);
@@ -475,21 +477,22 @@ int main(int argc, char* argv[]){
         if(is_intersection(leftout, leftin, rightin, rightout)){
             switch(next_action){
                 case -1:
-                    turn_left();
+                    turn_left(file);
                     curr_direction = (curr_direction - 1) / 4;
-                    break();
+                    break;
                 case 0:
-                    go_straight();
+                    go_straight(file);
                     break;
                 case 1:
-                    turn_right();
+                    turn_right(file);
                     curr_direction = (curr_direction + 1) / 4;
                     break;
                 case 2:
-                    turn_left();
-                    turn_left();
+                    turn_left(file);
+                    turn_left(file);
                     curr_direction = (curr_direction + 2) / 4;
             }
+            printf("3\n");
             update_action();
         }
         else if (leftout == LOW) {
@@ -499,5 +502,9 @@ int main(int argc, char* argv[]){
         } else {
             controlMotors(file,1,70,1,70);
         } 
+        printf("4\n");
+        
     }
+    
+    
 }
