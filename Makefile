@@ -1,43 +1,40 @@
-# Define the compilers
-CC = gcc
+# Compiler
 CXX = g++
 
-# Define the flags for the compiler
-CFLAGS = -Wall -pthread
-CXXFLAGS = -Wall -pthread
+# Compiler Flags
+CXXFLAGS = -Wall -pthread `pkg-config --cflags opencv4` -lwiringPi
+LDFLAGS = -lpthread -lwiringPi `pkg-config --libs opencv4`
 
-# Define the OpenCV and wiringPi libraries
-OPENCV_LIBS = `pkg-config --cflags --libs opencv4`
-WIRINGPI_LIBS = -lwiringPi
+# Source Files
+SRC = main.cpp client_network.c modified_linetracing.c
 
-# Define the source files and object files
-SRCS = main.cpp modified_linetracing.c  
-OBJS = main.o modified_linetracing.o 
-# Define the header files
-HDRS = client_network.h modified_linetracing.h qrCode_C.h
+# Object Files
+OBJ = main.o client_network.o modified_linetracing.o
 
-# Define the output executable
+# Executable
 TARGET = Client
 
-# Default target
+# Default Target
 all: $(TARGET)
 
-# Rule to build the target executable
-$(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS) $(OPENCV_LIBS) $(WIRINGPI_LIBS)
+# Link the executable
+$(TARGET): $(OBJ)
+	$(CXX) -o $@ $^ $(LDFLAGS)
 
-# Rule to build object files from source files
-main.o: main.cpp $(HDRS)
-	$(CXX) $(CXXFLAGS) $(OPENCV_LIBS) -c $< -o $@
+# Compile main.cpp
+main.o: main.cpp client_network.h modified_linetracing.h
+	$(CXX) $(CXXFLAGS) -c main.cpp
 
-modified_linetracing.o: modified_linetracing.c modified_linetracing.h
-	$(CC) $(CFLAGS) $(WIRINGPI_LIBS) -c $< -o $@
-
+# Compile client_network.c
 client_network.o: client_network.c client_network.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c client_network.c
 
-# Clean rule to remove generated files
+# Compile modified_linetracing.c
+modified_linetracing.o: modified_linetracing.c modified_linetracing.h
+	$(CXX) $(CXXFLAGS) -c modified_linetracing.c
+
+# Clean up the build
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(OBJ) $(TARGET)
 
 .PHONY: all clean
