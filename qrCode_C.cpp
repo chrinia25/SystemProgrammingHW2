@@ -10,8 +10,7 @@
     using namespace std;
 
     int read_QR(){
-
-        VideoCapture cap(0); // Open the default camera
+        static VideoCapture cap(0); // Open the default camera
         if (!cap.isOpened()) {  // Check if camera opened successfully
             cout << "Error: Couldn't open the camera" << endl;
         }

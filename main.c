@@ -436,8 +436,8 @@ int main(int argc, char* argv[]){
     read_QR();
     while(1){
         //QR_read
-        printf("test");
         qr = read_QR();
+        printf("test");
         printf("%d\n",player_num);
         if(qr != -1){
             printf("0\n");
