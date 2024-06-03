@@ -587,7 +587,7 @@ int main(int argc, char* argv[]){
         } else if (rightout == LOW) {
             adjust_right(file);
         } else {
-            controlMotors(file,1,90,1,90);
+            controlMotors(file,1,70,1,70);
         } 
         delay(10);
     }
