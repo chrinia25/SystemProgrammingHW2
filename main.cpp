@@ -16,7 +16,7 @@
 #include <opencv2/imgcodecs.hpp>
 #include "client_network.h"
 #include "modified_linetracing.h"
-
+#define MAX(x,y) (((x) < (y)) ? (y) : (x))
 
 typedef struct{
     int visited;
@@ -54,6 +54,7 @@ struct action_queue_node{
 action_queue_node *queue_start;
 action_queue_node *queue_end;
 
+void find_next_target();
 
 void queue_append(int action){
     action_queue_node *new_node;
@@ -78,10 +79,166 @@ int queue_pop(){
         action_queue_node *temp_ptr = queue_start; 
         queue_start = queue_start->next_node;
         free(temp_ptr);
+        if(queue_start == NULL){
+            queue_append(find_next_target());
+            queue_append(0);
+        }
         return temp_int;
     }
 }
 
+void find_next_target(){
+    int max_reward = -16;
+    int curr_reward;
+    int curr_target[2];
+    switch(curr_direction){
+        case 0:
+            curr_target[0] = curr_node[0];
+            curr_target[1] = curr_node[1] + 1;
+            break;
+        case 1:
+            curr_target[0] = curr_node[0] + 1;
+            curr_target[1] = curr_node[1];
+            break;
+        case 2:
+            curr_target[0] = curr_node[0];
+            curr_target[1] = curr_node[1] - 1;
+            break;
+        case 3:
+            curr_target[0] = curr_node[0] - 1;
+            curr_target[1] = curr_node[1];
+            break;
+    }
+    int final_dir = 0;
+    if(curr_target[0] != 0){
+        curr_reward = 0;
+        if(dgist.map[curr_target[0] - 1][curr_target[1]].item.status == 2){
+            curr_reward -= 8;
+        }
+        else if(dgist.map[curr_target[0] - 1][curr_target[1]].item.status == 1){
+            curr_reward += dgist.map[curr_target[0] - 1][curr_target[1]].item.score;
+        }
+        if(dgist.map[curr_target[0] - 2][curr_target[1]].item.status == 2){
+            curr_reward -= 8;
+        }
+        else if(dgist.map[curr_target[0] - 2][curr_target[1]].item.status == 1){
+            curr_reward += dgist.map[curr_target[0] - 2][curr_target[1]].item.score;
+        }
+        max_reward = MAX(max_reward, curr_reward);
+    }
+    if(curr_target[0] != 4){
+        curr_reward = 0;
+        if(dgist.map[curr_target[0] + 1][curr_target[1]].item.status == 2){
+            curr_reward -= 8;
+        }
+        else if(dgist.map[curr_target[0] + 1][curr_target[1]].item.status == 1){
+            curr_reward += dgist.map[curr_target[0] + 1][curr_target[1]].item.score;
+        }
+        if(dgist.map[curr_target[0] + 2][curr_target[1]].item.status == 2){
+            curr_reward -= 8;
+        }
+        else if(dgist.map[curr_target[0] + 2][curr_target[1]].item.status == 1){
+            curr_reward += dgist.map[curr_target[0] + 2][curr_target[1]].item.score;
+        }
+        max_reward = MAX(max_reward, curr_reward);
+    }
+    if(curr_target[1] != 0){
+        curr_reward = 0;
+        if(dgist.map[curr_target[0]][curr_target[1]-1].item.status == 2){
+            curr_reward -= 8;
+        }
+        else if(dgist.map[curr_target[0]][curr_target[1]-1].item.status == 1){
+            curr_reward += dgist.map[curr_target[0]][curr_target[1] - 1].item.score;
+        }
+        if(dgist.map[curr_target[0]][curr_target[1]-2].item.status == 2){
+            curr_reward -= 8;
+        }
+        else if(dgist.map[curr_target[0]][curr_target[1]-2].item.status == 1){
+            curr_reward += dgist.map[curr_target[0]][curr_target[1]-2].item.score;
+        }
+        max_reward = MAX(max_reward, curr_reward);
+    }
+    if(curr_target[1] != 4){
+        curr_reward = 0;
+        if(dgist.map[curr_target[0]][curr_target[1]+1].item.status == 2){
+            curr_reward -= 8;
+        }
+        else if(dgist.map[curr_target[0]][curr_target[1]+1].item.status == 1){
+            curr_reward += dgist.map[curr_target[0]][curr_target[1] + 1].item.score;
+        }
+        if(dgist.map[curr_target[0]][curr_target[1]+2].item.status == 2){
+            curr_reward -= 8;
+        }
+        else if(dgist.map[curr_target[0]][curr_target[1]+2].item.status == 1){
+            curr_reward += dgist.map[curr_target[0]][curr_target[1]+2].item.score;
+        }
+        max_reward = MAX(max_reward, curr_reward);
+    }
+    if(curr_target[0] != 0){
+        curr_reward = 0;
+        if(dgist.map[curr_target[0] - 1][curr_target[1]].item.status == 2){
+            curr_reward -= 8;
+        }
+        else if(dgist.map[curr_target[0] - 1][curr_target[1]].item.status == 1){
+            curr_reward += dgist.map[curr_target[0] - 1][curr_target[1]].item.score;
+        }
+        if(dgist.map[curr_target[0] - 2][curr_target[1]].item.status == 2){
+            curr_reward -= 8;
+        }
+        else if(dgist.map[curr_target[0] - 2][curr_target[1]].item.status == 1){
+            curr_reward += dgist.map[curr_target[0] - 2][curr_target[1]].item.score;
+        }
+        if(max_reward == curr_reward) return ((1 - curr_direction) % 4 == 3?) -1 : ((1 - curr_direction) % 4 == 3?);
+    }
+    if(curr_target[0] != 4){
+        curr_reward = 0;
+        if(dgist.map[curr_target[0] + 1][curr_target[1]].item.status == 2){
+            curr_reward -= 8;
+        }
+        else if(dgist.map[curr_target[0] + 1][curr_target[1]].item.status == 1){
+            curr_reward += dgist.map[curr_target[0] + 1][curr_target[1]].item.score;
+        }
+        if(dgist.map[curr_target[0] + 2][curr_target[1]].item.status == 2){
+            curr_reward -= 8;
+        }
+        else if(dgist.map[curr_target[0] + 2][curr_target[1]].item.status == 1){
+            curr_reward += dgist.map[curr_target[0] + 2][curr_target[1]].item.score;
+        }
+        if(max_reward == curr_reward) return ((3 - curr_direction) % 4 == 3?) -1 : ((1 - curr_direction) % 4 == 3?);
+    }
+    if(curr_target[1] != 0){
+        curr_reward = 0;
+        if(dgist.map[curr_target[0]][curr_target[1]-1].item.status == 2){
+            curr_reward -= 8;
+        }
+        else if(dgist.map[curr_target[0]][curr_target[1]-1].item.status == 1){
+            curr_reward += dgist.map[curr_target[0]][curr_target[1] - 1].item.score;
+        }
+        if(dgist.map[curr_target[0]][curr_target[1]-2].item.status == 2){
+            curr_reward -= 8;
+        }
+        else if(dgist.map[curr_target[0]][curr_target[1]-2].item.status == 1){
+            curr_reward += dgist.map[curr_target[0]][curr_target[1]-2].item.score;
+        }
+        if(max_reward == curr_reward) return ((0 - curr_direction) % 4 == 3?) -1 : ((1 - curr_direction) % 4 == 3?);
+    }
+    if(curr_target[1] != 4){
+        curr_reward = 0;
+        if(dgist.map[curr_target[0]][curr_target[1]+1].item.status == 2){
+            curr_reward -= 8;
+        }
+        else if(dgist.map[curr_target[0]][curr_target[1]+1].item.status == 1){
+            curr_reward += dgist.map[curr_target[0]][curr_target[1] + 1].item.score;
+        }
+        if(dgist.map[curr_target[0]][curr_target[1]+2].item.status == 2){
+            curr_reward -= 8;
+        }
+        else if(dgist.map[curr_target[0]][curr_target[1]+2].item.status == 1){
+            curr_reward += dgist.map[curr_target[0]][curr_target[1]+2].item.score;
+        }
+        if(max_reward == curr_reward) return ((2 - curr_direction) % 4 == 3?) -1 : ((1 - curr_direction) % 4 == 3?);
+    }
+}
 
 void send_data(int row, int col, int action_type){
     action[0] = row;
@@ -518,6 +675,7 @@ int main(int argc, char* argv[]){
             if(init_path_flag == 0){
                 init_path_flag = 1;
                 if(temp_x == 0 || temp_y == 0){
+                    curr_direction = 4;
                     queue_append(1);
                     queue_append(0);
                     queue_append(0);
@@ -529,6 +687,7 @@ int main(int argc, char* argv[]){
                     queue_append(1);
                 }   
                 else if(temp_x == 4 || temp_y == 4){
+                    curr_direction = 0;
                     queue_append(-1);
                     queue_append(0);
                     queue_append(0);
