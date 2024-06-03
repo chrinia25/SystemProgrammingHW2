@@ -28,7 +28,7 @@
             }
             cv::Mat brightenedImage;
             cv::cvtColor(frame, brightenedImage, cv::COLOR_BGR2GRAY);
-        
+            frame += cv::Scalar(50, 50, 50);
             // Detect and decode QR code
             vector <Point> points;
             string qrCodeText = qrDecoder.detectAndDecode(brightenedImage, points);
