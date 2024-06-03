@@ -448,10 +448,10 @@ int main(int argc, char* argv[]){
     std::vector <cv::Point> points;
     std::string qrCodeText;
     while(1){
-        if (!cap.isOpened()) {  // Check if camera opened successfully
-            cv::VideoCapture temp_cap(0);
-            cap = temp_cap;
-        }
+        // if (!cap.isOpened()) {  // Check if camera opened successfully
+        //     cv::VideoCapture temp_cap(0);
+        //     cap = temp_cap;
+        // }
         qrCodeText = "";
         cap >> frame;
         if (frame.empty()) qr = -1;
