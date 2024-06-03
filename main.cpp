@@ -501,7 +501,7 @@ int main(int argc, char* argv[]){
     queue_append(0);
     int init_path_flag = 0;
     while(1){
-        printf("curr_position:%d/%d, curr_direction:%d, before_node: %d, next_action:%d\n", curr_node[0],curr_node[1], curr_direction, before_node,next_action);
+        printf("curr_position:%d/%d, curr_direction:%d, before_node: %d\n", curr_node[0],curr_node[1], curr_direction, before_node);
         if(qr_changed){
             qr_changed = 0;
             printf("QR success!\n");
@@ -556,7 +556,9 @@ int main(int argc, char* argv[]){
         rightout = digitalRead(RIGHT2);
 
         if(is_intersection(leftout, leftin, rightin, rightout)){
-            switch(queue_pop()){
+            next_action = queue_pop();
+            printf("attempting action %d", next_action);
+            switch(next_action){
                 case -1:
                     turn_left(file);
                     curr_direction = (curr_direction - 1) / 4;
