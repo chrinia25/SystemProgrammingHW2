@@ -31,7 +31,7 @@ void turn_left(int file)
     int flag = 0;
     while(!flag){
         delay(10);
-        flag = controlMotors(file, 0, 50, 1, 70);
+        flag = controlMotors(file, 0, 70, 1, 70);
     }
     delay(200);
     leftin = digitalRead(LEFT2);
@@ -39,7 +39,7 @@ void turn_left(int file)
     while(!(leftin  == LOW || rightin == LOW))
     {
         delay(10);
-        controlMotors(file, 0, 50, 1, 70);
+        controlMotors(file, 0, 70, 1, 70);
         leftin = digitalRead(LEFT2);
         rightin = digitalRead(RIGHT1);
     }
@@ -54,14 +54,14 @@ void turn_right(int file)
     int flag = 0;
     while(!flag){
         delay(10);
-        flag = controlMotors(file, 1, 70, 0, 50);
+        flag = controlMotors(file, 1, 70, 0, 70);
     }
     delay(200);
     leftin = digitalRead(LEFT2);
     rightin = digitalRead(RIGHT1);
     while(!(leftin  == LOW || rightin == LOW)){
         delay(10);
-        controlMotors(file, 1, 70, 0, 50);
+        controlMotors(file, 1, 70, 0, 70);
         leftin = digitalRead(LEFT2);
         rightin = digitalRead(RIGHT1);
     }
