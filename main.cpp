@@ -352,6 +352,7 @@ void* sendAction(void* arg) {
                 printf("sent data row: %d, col: %d, action: %d\n",cAction.row, cAction.col, cAction.action);
             }
             pthread_mutex_unlock(&lock);
+            printf("unlock success!");
         // int row, col, action;
         // printf("Enter your action (row col action): ");
         // scanf("%d %d %d", &row, &col, &action);
