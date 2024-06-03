@@ -41,6 +41,8 @@ int send_data_flag = 0;
 int action[3];
 int target_node_queue[4][2];
 int file;
+int qr_changed = 0;
+int qr;
 
 void send_data(int row, int col, int action_type){
     action[0] = row;
@@ -226,6 +228,27 @@ void update_action(){
     }
 }
 
+void* read_qr(){
+    cv::VideoCapture cap(0);
+    cv::QRCodeDetector qrDecoder;
+    cv::Mat frame;
+    cv::Mat brightenedImage;
+    std::vector <cv::Point> points;
+    std::string qrCodeText;
+    while(1){
+        if (!cap.isOpened()) {  // Check if camera opened successfully
+            cv::VideoCapture temp_cap(0);
+            cap = temp_cap;
+        }
+        qrCodeText = "";
+        cap >> frame;
+        qrCodeText = qrDecoder.detectAndDecode(frame, points);
+        if (qrCodeText.size() > 0){
+            qr = std::stoi(qrCodeText);
+            qr_changed = 1;
+        }
+    }
+}
 
 void* receiveData(void* arg) {
     while (1) {
@@ -395,7 +418,7 @@ int main(int argc, char* argv[]){
     int dpoint;
     networking_info nInfContain;
     pthread_t networkThread;
-
+    prthread_t qrThread;
     cActionInf.cAction_point = &cp;
     cActionInf.dirty_pointer = &dpoint;
     nInf = &nInfContain;
@@ -408,6 +431,7 @@ int main(int argc, char* argv[]){
     nInf->cA_info = &cActionInf;
     
     pthread_create(&networkThread, NULL, networking, (void*)nInf);
+    pthread_create(&qrThread, NULL, read_qr, NULL)
     const char *filename = "/dev/i2c-1";
     // Open the I2C bus
     if ((file = open(filename, O_RDWR)) < 0) {
@@ -441,28 +465,10 @@ int main(int argc, char* argv[]){
     target_node_queue[3][0] = 2;
     target_node_queue[3][1] = 3;
 
-    cv::VideoCapture cap(0);
-    cv::QRCodeDetector qrDecoder;
-    cv::Mat frame;
-    cv::Mat brightenedImage;
-    std::vector <cv::Point> points;
-    std::string qrCodeText;
     while(1){
-        // if (!cap.isOpened()) {  // Check if camera opened successfully
-        //     cv::VideoCapture temp_cap(0);
-        //     cap = temp_cap;
-        // }
-        qrCodeText = "";
-        cap >> frame;
-        if (frame.empty()) qr = -1;
-        //cv::cvtColor(frame, brightenedImage, cv::COLOR_BGR2GRAY);
-        //brightenedImage += cv::Scalar(50, 50, 50);
-        qrCodeText = qrDecoder.detectAndDecode(frame, points);
-        if (qrCodeText.size() > 0){
-            qr = std::stoi(qrCodeText);
-        }
-        else qr = -1;
-        if(qr != -1){
+      
+        if(qr_changed){
+            qr_changed = 0;
             printf("QR success!\n");
             printf("%d\n",qr);
             printf("==========================\n");
