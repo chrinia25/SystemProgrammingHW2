@@ -473,10 +473,12 @@ int main(int argc, char* argv[]){
             printf("==========================\n");
             printf("0\n");
             if(player_num == -1){
-                if(curr_node[0] == dgist.players[0].row && curr_node[1] == dgist.players[0].col){
+                if(curr_node[0] == 0 && curr_node[1] == 0){
+                    curr_direction = 0;
                     player_num = 0;
                 }   
-                else if(curr_node[0] == dgist.players[1].row && curr_node[1] == dgist.players[1].col){
+                else if(curr_node[0] == 4 && curr_node[1] == 4){
+                    curr_direction = 4;
                     player_num = 1;
                 }   
             }
