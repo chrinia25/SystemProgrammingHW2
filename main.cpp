@@ -501,7 +501,7 @@ int main(int argc, char* argv[]){
     queue_append(0);
     int init_path_flag = 0;
     while(1){
-        printf("curr_position:%d/%d, curr_direction:%d, before_node: %d\n", curr_node[0],curr_node[1], curr_direction, before_node);
+        //printf("curr_position:%d/%d, curr_direction:%d, before_node: %d\n", curr_node[0],curr_node[1], curr_direction, before_node);
         if(qr_changed){
             qr_changed = 0;
             printf("QR success!\n");
@@ -536,11 +536,6 @@ int main(int argc, char* argv[]){
                 }   
             }
             if(temp_x != curr_node[0] || temp_y != curr_node[1]){
-                if((temp_x  == curr_node[0]) && (temp_y == curr_node[1] + 1)) curr_direction = 0;
-                else if((temp_x  == curr_node[0] + 1) && (temp_y == curr_node[1])) curr_direction = 1;
-                else if((temp_x  == curr_node[0]) && (temp_y == curr_node[1] - 1)) curr_direction = 2;
-                else if((temp_x  == curr_node[0] - 1) && (temp_y == curr_node[1])) curr_direction = 3;
-                before_node = 1;
                 curr_node[0] = temp_x;
                 curr_node[1] = temp_y;
                 //get new direction
