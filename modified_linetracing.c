@@ -29,14 +29,14 @@ void turn_left(int file)
     int rightin = digitalRead(RIGHT1);
     int flag = 0;
     while(!flag){
-        flag = controlMotors(file, 0, 100, 1, 100);
+        flag = controlMotors(file, 0, 50, 1, 70);
     }
-    delay(100);
+    delay(200);
     leftin = digitalRead(LEFT2);
     rightin = digitalRead(RIGHT1);
     while(!(leftin  == LOW || rightin == LOW))
     {
-        controlMotors(file, 0, 100, 1, 100);
+        controlMotors(file, 0, 50, 1, 70);
         leftin = digitalRead(LEFT2);
         rightin = digitalRead(RIGHT1);
     }
@@ -49,14 +49,14 @@ void turn_right(int file)
     int rightin = digitalRead(RIGHT1);
     int flag = 0;
     while(!flag){
-        flag = controlMotors(file, 1, 100, 0, 100);
+        flag = controlMotors(file, 1, 70, 0, 50);
     }
-    delay(100);
+    delay(200);
     leftin = digitalRead(LEFT2);
     rightin = digitalRead(RIGHT1);
     while(!(leftin  == LOW || rightin == LOW))
     {
-        controlMotors(file, 1, 100, 0, 100);
+        controlMotors(file, 1, 70, 0, 50);
         leftin = digitalRead(LEFT2);
         rightin = digitalRead(RIGHT1);
     }
@@ -71,7 +71,7 @@ void go_straight(int file)
 
     while((leftout  == LOW || rightout == LOW))
     {
-        controlMotors(file, 1, 100, 1, 100);
+        controlMotors(file, 1, 50, 1, 50);
         leftout = digitalRead(LEFT1);
         rightout = digitalRead(RIGHT2);
     }
