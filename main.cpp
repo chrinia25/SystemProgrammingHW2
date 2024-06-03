@@ -331,6 +331,7 @@ void* receiveData(void* arg) {
              printf("Bomb: %d\n", client.bomb);
          }
          printf("========== PRINT DONE ==========\n");
+         pthread_mutex_unlock(&lock);
     }
     return NULL;
 }
@@ -352,7 +353,6 @@ void* sendAction(void* arg) {
                 printf("sent data row: %d, col: %d, action: %d\n",cAction.row, cAction.col, cAction.action);
             }
             pthread_mutex_unlock(&lock);
-            printf("unlock success!");
         // int row, col, action;
         // printf("Enter your action (row col action): ");
         // scanf("%d %d %d", &row, &col, &action);
@@ -376,7 +376,6 @@ void* sendAction(void* arg) {
         //printf("%d %d %d\n", cA_info->cAction_point->row, cA_info->cAction_point->col, cA_info->cAction_point->action);
         //printf("pthread_mutex_unlock - after");
         }
-        delay(10);
     }
     return NULL;
 }
