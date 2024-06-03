@@ -513,7 +513,7 @@ int main(int argc, char* argv[]){
             temp_y = qr % 10;
             if(init_path_flag == 0){
                 init_path_flag = 1;
-                if(curr_node[0] == 0 || curr_node[1] == 0){
+                if(temp_x == 0 || temp_y == 0){
                     queue_append(1);
                     queue_append(0);
                     queue_append(0);
@@ -524,7 +524,7 @@ int main(int argc, char* argv[]){
                     queue_append(0);
                     queue_append(1);
                 }   
-                else if(curr_node[0] == 4 || curr_node[1] == 4){
+                else if(temp_x == 4 || temp_y == 4){
                     queue_append(-1);
                     queue_append(0);
                     queue_append(0);
