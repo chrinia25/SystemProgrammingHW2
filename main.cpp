@@ -465,7 +465,7 @@ int main(int argc, char* argv[]){
     target_node_queue[3][1] = 3;
 
     while(1){
-        printf("curr_position:%d/%d, curr_direction:%d, before_node: %d, next_action:%d", curr_node[0],curr_node[1], curr_direction, before_node,next_action);
+        printf("curr_position:%d/%d, curr_direction:%d, before_node: %d, next_action:%d\n", curr_node[0],curr_node[1], curr_direction, before_node,next_action);
         if(qr_changed){
             qr_changed = 0;
             printf("QR success!\n");
