@@ -380,7 +380,7 @@ void adjust_right(int file_dir){
 
 int main(int argc, char* argv[]){
     if(argc != 2){
-        printf("correct usage: add ip address and port");
+        printf("correct usage: <executable name> ip_address port");
     }
     cAction_info cActionInf;
     ClientAction cp; 
@@ -438,7 +438,7 @@ int main(int argc, char* argv[]){
         //QR_read
         printf("test");
         qr = read_QR();
-        printf("%d\n",player_num);
+        printf("%d\n",qr);
         if(qr != -1){
             printf("0\n");
             if(player_num == -1){
