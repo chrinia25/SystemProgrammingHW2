@@ -431,7 +431,7 @@ int main(int argc, char* argv[]){
     nInf->cA_info = &cActionInf;
     
     pthread_create(&networkThread, NULL, networking, (void*)nInf);
-    pthread_create(&qrThread, NULL, read_qr, NULL)
+    pthread_create(&qrThread, NULL, read_qr, NULL);
     const char *filename = "/dev/i2c-1";
     // Open the I2C bus
     if ((file = open(filename, O_RDWR)) < 0) {
