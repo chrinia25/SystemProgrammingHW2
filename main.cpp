@@ -418,7 +418,7 @@ int main(int argc, char* argv[]){
     int dpoint;
     networking_info nInfContain;
     pthread_t networkThread;
-    prthread_t qrThread;
+    pthread_t qrThread;
     cActionInf.cAction_point = &cp;
     cActionInf.dirty_pointer = &dpoint;
     nInf = &nInfContain;
