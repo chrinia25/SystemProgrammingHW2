@@ -455,9 +455,9 @@ int main(int argc, char* argv[]){
         qrCodeText = "";
         cap >> frame;
         if (frame.empty()) qr = -1;
-        cv::cvtColor(frame, brightenedImage, cv::COLOR_BGR2GRAY);
-        brightenedImage += cv::Scalar(50, 50, 50);
-        qrCodeText = qrDecoder.detectAndDecode(brightenedImage, points);
+        //cv::cvtColor(frame, brightenedImage, cv::COLOR_BGR2GRAY);
+        //brightenedImage += cv::Scalar(50, 50, 50);
+        qrCodeText = qrDecoder.detectAndDecode(frame, points);
         if (qrCodeText.size() > 0){
             qr = std::stoi(qrCodeText);
         }
