@@ -686,7 +686,7 @@ int main(int argc, char* argv[]){
             if(init_path_flag == 0){
                 init_path_flag = 1;
                 if(temp_x == 0 || temp_y == 0){
-                    curr_direction = 4;
+                    curr_direction = 3;
                     queue_append(1);
                     queue_append(0);
                     queue_append(0);
