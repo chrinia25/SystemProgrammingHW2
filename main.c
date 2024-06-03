@@ -506,6 +506,12 @@ int main(int argc, char* argv[]){
             }
             update_action();
         }
+        else if (leftin == HIGH && rightin == LOW){
+            controlMotors(file,1,50,1,70);
+        }
+        else if (leftin == LOW && rightin HIGH){
+            controlMotors(file,1,70,1,50);
+        }
         else if (leftout == LOW) {
             adjust_left(file);
         } else if (rightout == LOW) {
