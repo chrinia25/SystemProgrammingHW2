@@ -472,31 +472,31 @@ int main(int argc, char* argv[]){
             printf("%d\n",qr);
             printf("==========================\n");
             printf("0\n");
-        //     if(player_num == -1){
-        //         if(curr_node[0] == dgist.players[0].row && curr_node[1] == dgist.players[0].col){
-        //             player_num = 0;
-        //         }   
-        //         else if(curr_node[0] == dgist.players[1].row && curr_node[1] == dgist.players[1].col){
-        //             player_num = 1;
-        //         }   
-        //     }
-        //     temp_x = qr / 10;
-        //     temp_y = qr % 10;
-        //     if(temp_x != curr_node[0] || temp_y != curr_node[1]){
-        //         if((temp_x  == curr_node[0]) && (temp_y == curr_node[1] + 1)) curr_direction = 0;
-        //         else if((temp_x  == curr_node[0] + 1) && (temp_y == curr_node[1])) curr_direction = 1;
-        //         else if((temp_x  == curr_node[0]) && (temp_y == curr_node[1] - 1)) curr_direction = 2;
-        //         else if((temp_x  == curr_node[0] - 1) && (temp_y == curr_node[1])) curr_direction = 3;
-        //         before_node = 1;
-        //         curr_node[0] = temp_x;
-        //         curr_node[1] = temp_y;
-        //         //get new direction
-        //         if((temp_x == 1 && temp_y == 2) || (temp_x == 2 && temp_y == 1) || (temp_x == 2 && temp_y == 3) || (temp_x == 3 && temp_y == 2)){
-        //             send_data(temp_x, temp_y,1);
-        //         }
-        //         else send_data(temp_x, temp_y, 0);
-        //     }
-        //     update_action();
+            if(player_num == -1){
+                if(curr_node[0] == dgist.players[0].row && curr_node[1] == dgist.players[0].col){
+                    player_num = 0;
+                }   
+                else if(curr_node[0] == dgist.players[1].row && curr_node[1] == dgist.players[1].col){
+                    player_num = 1;
+                }   
+            }
+            temp_x = qr / 10;
+            temp_y = qr % 10;
+            if(temp_x != curr_node[0] || temp_y != curr_node[1]){
+                if((temp_x  == curr_node[0]) && (temp_y == curr_node[1] + 1)) curr_direction = 0;
+                else if((temp_x  == curr_node[0] + 1) && (temp_y == curr_node[1])) curr_direction = 1;
+                else if((temp_x  == curr_node[0]) && (temp_y == curr_node[1] - 1)) curr_direction = 2;
+                else if((temp_x  == curr_node[0] - 1) && (temp_y == curr_node[1])) curr_direction = 3;
+                before_node = 1;
+                curr_node[0] = temp_x;
+                curr_node[1] = temp_y;
+                //get new direction
+                if((temp_x == 1 && temp_y == 2) || (temp_x == 2 && temp_y == 1) || (temp_x == 2 && temp_y == 3) || (temp_x == 3 && temp_y == 2)){
+                    send_data(temp_x, temp_y,1);
+                }
+                else send_data(temp_x, temp_y, 0);
+            }
+            update_action();
         }
         leftout = digitalRead(LEFT1);
         leftin = digitalRead(LEFT2);
@@ -504,26 +504,24 @@ int main(int argc, char* argv[]){
         rightout = digitalRead(RIGHT2);
         
         if(is_intersection(leftout, leftin, rightin, rightout)){
-            turn_left(file);
-            curr_direction = (curr_direction - 1) / 4;
-            // switch(next_action){
-            //     case -1:
-            //         turn_left(file);
-            //         curr_direction = (curr_direction - 1) / 4;
-            //         break;
-            //     case 0:
-            //         go_straight(file);
-            //         break;
-            //     case 1:
-            //         turn_right(file);
-            //         curr_direction = (curr_direction + 1) / 4;
-            //         break;
-            //     case 2:
-            //         turn_left(file);
-            //         turn_left(file);
-            //         curr_direction = (curr_direction + 2) / 4;
-            //}
-            //update_action();
+            switch(next_action){
+                case -1:
+                    turn_left(file);
+                    curr_direction = (curr_direction - 1) / 4;
+                    break;
+                case 0:
+                    go_straight(file);
+                    break;
+                case 1:
+                    turn_right(file);
+                    curr_direction = (curr_direction + 1) / 4;
+                    break;
+                case 2:
+                    turn_left(file);
+                    turn_left(file);
+                    curr_direction = (curr_direction + 2) / 4;
+            }
+            update_action();
         }
         else if (leftin == HIGH && rightin == LOW){
             controlMotors(file,1,70,1,0);
