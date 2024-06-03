@@ -487,22 +487,24 @@ int main(int argc, char* argv[]){
         rightout = digitalRead(RIGHT2);
         
         if(is_intersection(leftout, leftin, rightin, rightout)){
-            switch(next_action){
-                case -1:
-                    turn_left(file);
-                    curr_direction = (curr_direction - 1) / 4;
-                    break;
-                case 0:
-                    go_straight(file);
-                    break;
-                case 1:
-                    turn_right(file);
-                    curr_direction = (curr_direction + 1) / 4;
-                    break;
-                case 2:
-                    turn_left(file);
-                    turn_left(file);
-                    curr_direction = (curr_direction + 2) / 4;
+            turn_left(file);
+            curr_direction = (curr_direction - 1) / 4;
+            // switch(next_action){
+            //     case -1:
+            //         turn_left(file);
+            //         curr_direction = (curr_direction - 1) / 4;
+            //         break;
+            //     case 0:
+            //         go_straight(file);
+            //         break;
+            //     case 1:
+            //         turn_right(file);
+            //         curr_direction = (curr_direction + 1) / 4;
+            //         break;
+            //     case 2:
+            //         turn_left(file);
+            //         turn_left(file);
+            //         curr_direction = (curr_direction + 2) / 4;
             }
             update_action();
         }
