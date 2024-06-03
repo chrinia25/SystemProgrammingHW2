@@ -685,7 +685,7 @@ int main(int argc, char* argv[]){
             if(init_path_flag == 0){
                 init_path_flag = 1;
                 if(temp_x == 0 || temp_y == 0){
-                    curr_direction = 3;
+                    curr_direction = 0;
                     queue_append(1);
                     queue_append(0);
                     queue_append(0);
@@ -697,7 +697,7 @@ int main(int argc, char* argv[]){
                     queue_append(1);
                 }   
                 else if(temp_x == 4 || temp_y == 4){
-                    curr_direction = 0;
+                    curr_direction = 3;
                     queue_append(-1);
                     queue_append(0);
                     queue_append(0);
@@ -731,18 +731,18 @@ int main(int argc, char* argv[]){
             switch(next_action){
                 case -1:
                     turn_left(file);
-                    curr_direction = (curr_direction - 1) / 4;
+                    curr_direction = (curr_direction - 1) % 4;
                     break;
                 case 0:
                     go_straight(file);
                     break;
                 case 1:
                     turn_right(file);
-                    curr_direction = (curr_direction + 1) / 4;
+                    curr_direction = (curr_direction + 1) % 4;
                     break;
                 case 2:
                     go_back(file);
-                    curr_direction = (curr_direction + 2) / 4;
+                    curr_direction = (curr_direction + 2) % 4;
             }
         }
         else if (leftin == HIGH && rightin == LOW){
