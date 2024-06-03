@@ -279,6 +279,7 @@ void* read_qr(void * arg){
     cv::Mat brightenedImage;
     std::vector <cv::Point> points;
     std::string qrCodeText;
+    cv::Mat brightenedImage;
     while(1){
         if (!cap.isOpened()) {  // Check if camera opened successfully
             cv::VideoCapture temp_cap(0);
@@ -286,7 +287,9 @@ void* read_qr(void * arg){
         }
         qrCodeText = "";
         cap >> frame;
-        qrCodeText = qrDecoder.detectAndDecode(frame, points);
+        cv::cvtColor(frame, brightenedImage, cv::COLOR_BGR2GRAY);
+        brightenedImage += cv::Scalar(50, 50, 50);
+        qrCodeText = qrDecoder.detectAndDecode(brightenedImage, points);
         if (qrCodeText.size() > 0){
             qr = std::stoi(qrCodeText);
             qr_changed = 1;
