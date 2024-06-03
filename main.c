@@ -496,10 +496,10 @@ int main(int argc, char* argv[]){
             update_action();
         }
         else if (leftin == HIGH && rightin == LOW){
-            controlMotors(file,1,50,1,45);
+            controlMotors(file,1,50,1,0);
         }
         else if (leftin == LOW && rightin == HIGH){
-            controlMotors(file,1,45,1,50);
+            controlMotors(file,1,0,1,50);
         }
         else if (leftout == LOW) {
             adjust_left(file);
