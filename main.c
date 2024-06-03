@@ -437,7 +437,6 @@ int main(int argc, char* argv[]){
     target_node_queue[3][1] = 3;
     read_QR();
     while(1){
-        QR_read
         qr = read_QR();
         if(qr != -1){
             printf("QR success!\n");
