@@ -359,21 +359,23 @@ void* networking(void* arg) {
 
 void adjust_left(int file_dir){
     while(!(leftin == LOW || rightin == LOW)){
-        flag = controlMotors(file_dir, 0, 0, 1, 50);
+        flag = controlMotors(file_dir, 0, 0, 1, 70);
         leftout = digitalRead(LEFT1);
         leftin = digitalRead(LEFT2);
         rightin = digitalRead(RIGHT1);
         rightout = digitalRead(RIGHT2);
+        delay(10);
     }
     flag = 0;
 }
 void adjust_right(int file_dir){
     while(!(leftin == LOW || rightin == LOW)){
-        controlMotors(file_dir, 1, 50, 0, 0);
+        controlMotors(file_dir, 1, 70, 0, 0);
         leftout = digitalRead(LEFT1);
         leftin = digitalRead(LEFT2);
         rightin = digitalRead(RIGHT1);
         rightout = digitalRead(RIGHT2);
+        delay(10);
     }
     flag = 0;
 }
@@ -496,17 +498,17 @@ int main(int argc, char* argv[]){
             //update_action();
         }
         else if (leftin == HIGH && rightin == LOW){
-            controlMotors(file,1,50,1,0);
+            controlMotors(file,1,70,1,0);
         }
         else if (leftin == LOW && rightin == HIGH){
-            controlMotors(file,1,0,1,50);
+            controlMotors(file,1,0,1,70);
         }
         else if (leftout == LOW) {
             adjust_left(file);
         } else if (rightout == LOW) {
             adjust_right(file);
         } else {
-            controlMotors(file,1,50,1,50);
+            controlMotors(file,1,70,1,70);
         } 
         delay(10);
     }

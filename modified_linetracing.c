@@ -76,7 +76,7 @@ void go_straight(int file)
 
     while((leftout  == LOW || rightout == LOW))
     {
-        controlMotors(file, 1, 50, 1, 50);
+        controlMotors(file, 1, 70, 1, 70);
         leftout = digitalRead(LEFT1);
         rightout = digitalRead(RIGHT2);
     }
