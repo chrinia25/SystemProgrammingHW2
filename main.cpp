@@ -540,7 +540,7 @@ int main(int argc, char* argv[]){
                 curr_node[0] = temp_x;
                 curr_node[1] = temp_y;
                 //get new direction
-                if((temp_x == 1 && temp_y == 2) || (temp_x == 2 && temp_y == 1) || (temp_x == 2 && temp_y == 3) || (temp_x == 3 && temp_y == 2)){
+                if((temp_x == 1 && temp_y == 1) || (temp_x == 1 && temp_y == 3) || (temp_x == 3 && temp_y == 1) || (temp_x == 3 && temp_y == 3)){
                     send_data(temp_x, temp_y,1);
                 }
                 else send_data(temp_x, temp_y, 0);
