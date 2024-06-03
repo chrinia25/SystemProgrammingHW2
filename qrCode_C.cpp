@@ -10,7 +10,7 @@
     using namespace std;
 
     int read_QR(){
-        static VideoCapture cap(0); // Open the default camera
+        VideoCapture cap(0); // Open the default camera
         if (!cap.isOpened()) {  // Check if camera opened successfully
             cout << "Error: Couldn't open the camera" << endl;
             VideoCapture temp_cap(0);
@@ -35,7 +35,6 @@
 
             if (qrCodeText.size() > 0){
                 int num_qrCodeText = stoi(qrCodeText);
-                cap.release();
                 return num_qrCodeText;
             }
 
