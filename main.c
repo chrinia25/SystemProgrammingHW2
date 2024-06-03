@@ -508,7 +508,7 @@ int main(int argc, char* argv[]){
         }
         else if (leftout == LOW) {
             adjust_left(file);
-        } else if (rightin == LOW && leftout == LOW) {
+        } else if (rightout == LOW) {
             adjust_right(file);
         } else {
             controlMotors(file,1,70,1,70);
