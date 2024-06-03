@@ -437,8 +437,23 @@ int main(int argc, char* argv[]){
     while(1){
         //QR_read
         qr = read_QR();
-        printf("%d\n",qr);
         if(qr != -1){
+            printf("%d\n",qr);
+            printf("%d\n",qr);
+            printf("%d\n",qr);
+            printf("%d\n",qr);
+            printf("%d\n",qr);
+            printf("%d\n",qr);
+            printf("%d\n",qr);
+            printf("%d\n",qr);
+            printf("%d\n",qr);
+            printf("%d\n",qr);
+            printf("%d\n",qr);
+            printf("%d\n",qr);
+            printf("%d\n",qr);
+            printf("%d\n",qr);
+            printf("%d\n",qr);
+            printf("%d\n",qr);
             printf("0\n");
             if(player_num == -1){
                 if(curr_node[0] == dgist.players[0].row && curr_node[1] == dgist.players[0].col){
