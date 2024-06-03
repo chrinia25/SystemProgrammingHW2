@@ -224,7 +224,7 @@ void update_action(){
         push_target_queue(0,0);
     }
     next_action = -2;
-    while(next_action != -2){
+    while(next_action == -2){
         next_action = find_path(target_node_queue[0][0],target_node_queue[0][1]);
     }
 }
