@@ -437,13 +437,13 @@ int main(int argc, char* argv[]){
     target_node_queue[3][1] = 3;
     read_QR();
     while(1){
-        //QR_read
-        // qr = read_QR();
-        // if(qr != -1){
-        //     printf("QR success!\n");
-        //     printf("%d\n",qr);
-        //     printf("==========================\n");
-        //     printf("0\n");
+        QR_read
+        qr = read_QR();
+        if(qr != -1){
+            printf("QR success!\n");
+            printf("%d\n",qr);
+            printf("==========================\n");
+            printf("0\n");
         //     if(player_num == -1){
         //         if(curr_node[0] == dgist.players[0].row && curr_node[1] == dgist.players[0].col){
         //             player_num = 0;
@@ -469,7 +469,7 @@ int main(int argc, char* argv[]){
         //         else send_data(temp_x, temp_y, 0);
         //     }
         //     update_action();
-        // }
+        }
         leftout = digitalRead(LEFT1);
         leftin = digitalRead(LEFT2);
         rightin = digitalRead(RIGHT1);
