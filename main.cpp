@@ -55,7 +55,7 @@ void send_data(int row, int col, int action_type){
 int bfs(int target_x, int target_y){
     printf("bfs called!\n");
     for(int i = 0;i < 5; i++){
-        for(int j = 0;j < 5; i++){
+        for(int j = 0;j < 5; j++){
             bfs_nodes[i][j].parent_pos[0] = 0;
             bfs_nodes[i][j].parent_pos[1] = 0;
             bfs_nodes[i][j].visited = 0;
