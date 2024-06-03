@@ -62,10 +62,11 @@ int bfs(int target_x, int target_y){
             bfs_nodes[i][j].has_bomb = (dgist.map[i][j].item.status == 2) ? 1 : 0 ;
         }
     }
+    printf("bfs init stage passed");
     bfs_nodes[curr_node[0]][curr_node[1]].visited = 1;
-    int flag = 1;
-    while(flag){
-        flag = 0;
+    int bfs_flag = 1;
+    while(bfs_flag){
+        bfs_flag = 0;
         for(int i = 0; i < 5; i++){
             for(int j = 0; i < 5; j++){
                 if(bfs_nodes[i][j].visited == 0){
@@ -74,7 +75,7 @@ int bfs(int target_x, int target_y){
                             bfs_nodes[i][j].parent_pos[0] = i-1;
                             bfs_nodes[i][j].parent_pos[1] = j;
                             bfs_nodes[i][j].visited = 1;
-                            flag = 1;
+                            bfs_flag = 1;
                         }
                     }
                     else if(i < 4){
@@ -82,7 +83,7 @@ int bfs(int target_x, int target_y){
                             bfs_nodes[i][j].parent_pos[0] = i + 1;
                             bfs_nodes[i][j].parent_pos[1] = j;
                             bfs_nodes[i][j].visited = 1;
-                            flag = 1;
+                            bfs_flag = 1;
                         }
                     }
                     else if(j >  0){
@@ -90,7 +91,7 @@ int bfs(int target_x, int target_y){
                             bfs_nodes[i][j].parent_pos[0] = i;
                             bfs_nodes[i][j].parent_pos[1] = j - 1;
                             bfs_nodes[i][j].visited = 1;
-                            flag = 1;
+                            bfs_flag = 1;
                         }
                     }
                     else if(j <  4){
@@ -98,7 +99,7 @@ int bfs(int target_x, int target_y){
                             bfs_nodes[i][j].parent_pos[0] = i;
                             bfs_nodes[i][j].parent_pos[1] = j + 1;
                             bfs_nodes[i][j].visited = 1;
-                            flag = 1;
+                            bfs_flag = 1;
                         }
                     }
                 }
