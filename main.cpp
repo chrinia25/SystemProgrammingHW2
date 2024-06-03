@@ -136,6 +136,7 @@ int bfs(int target_x, int target_y){
 }
 
 int find_path(int target_x, int target_y){
+    printf("find_path called!\n\n");
     if(before_node == 0){
         switch(curr_direction){
             case 0://east
