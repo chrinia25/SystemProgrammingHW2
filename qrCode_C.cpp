@@ -13,6 +13,7 @@
         static VideoCapture cap(0); // Open the default camera
         if (!cap.isOpened()) {  // Check if camera opened successfully
             cout << "Error: Couldn't open the camera" << endl;
+            cap(0);
         }
 
         QRCodeDetector qrDecoder;
