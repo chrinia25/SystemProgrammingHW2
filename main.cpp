@@ -345,23 +345,22 @@ void* sendAction(void* arg) {
             pthread_mutex_lock(&lock);
             if (send(sock, &cAction, sizeof(ClientAction), 0) < 0){
                 printf("Send Error");
-            
-            }
-            else send_data_flag = 0;
-            pthread_mutex_unlock(&lock);
-        } 
-        /*
-        int row, col, action;
-        printf("Enter your action (row col action): ");
-        scanf("%d %d %d", &row, &col, &action);
 
-        ClientAction cAction;
-        cAction.row = row;
-        cAction.col = col;
-        cAction.action = (enum Action)action;
+            }
+            else{
+                send_data_flag = 0;
+                printf("sent data row: %d, col: %d, action: %d\n",cAction.row, cAction.col, cAction.action);
+            }
+        // int row, col, action;
+        // printf("Enter your action (row col action): ");
+        // scanf("%d %d %d", &row, &col, &action);
+
+        // ClientAction cAction;
+        // cAction.row = row;
+        // cAction.col = col;
+        // cAction.action = (enum Action)action;
         
         //printf("pthread_mutex_lock - before");
-        */
         //pthread_mutex_lock(&lock);
         //printf("pthread_mutex_lock - after");
         //if (send(sock, &cAction, sizeof(ClientAction), 0) < 0) {
