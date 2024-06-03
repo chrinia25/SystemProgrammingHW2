@@ -358,7 +358,7 @@ void* networking(void* arg) {
 }
 
 void adjust_left(int file_dir){
-    while(!(leftin == LOW && rightin == LOW)){
+    while(!(leftin == LOW || rightin == LOW)){
         flag = controlMotors(file_dir, 0, 0, 1, 50);
         leftout = digitalRead(LEFT1);
         leftin = digitalRead(LEFT2);
@@ -368,7 +368,7 @@ void adjust_left(int file_dir){
     flag = 0;
 }
 void adjust_right(int file_dir){
-    while(!(leftin == LOW && rightin == LOW)){
+    while(!(leftin == LOW || rightin == LOW)){
         controlMotors(file_dir, 1, 50, 0, 0);
         leftout = digitalRead(LEFT1);
         leftin = digitalRead(LEFT2);
