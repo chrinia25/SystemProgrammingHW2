@@ -25,7 +25,7 @@ int controlMotors(int fd, unsigned char leftDir, unsigned char leftSpeed, unsign
     
 void turn_left(int file)
 {
-    printf("attempting left turn");
+    //printf("attempting left turn");
     int leftin = digitalRead(LEFT2);
     int rightin = digitalRead(RIGHT1);
     int flag = 0;
@@ -46,7 +46,7 @@ void turn_left(int file)
 
 void turn_right(int file)
 {
-    printf("attempting right turn");
+    //printf("attempting right turn");
     int leftin = digitalRead(LEFT2);
     int rightin = digitalRead(RIGHT1);
     int flag = 0;
@@ -82,6 +82,9 @@ void go_straight(int file)
 
 int is_intersection(int leftout,int leftin,int rightin, int rightout)
 {
-    if(leftout == LOW || rightout == LOW) return 1;
+    if(leftout == LOW || rightout == LOW){
+        printf("found corner!");
+        return 1;
+    } 
     else return 0;
 }
