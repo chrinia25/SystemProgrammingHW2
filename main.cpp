@@ -88,6 +88,17 @@ int queue_pop(){
 }
 
 int find_next_target(){
+    printf("called!!\n");
+    printf("called!!\n");
+    printf("called!!\n");
+    printf("called!!\n");
+    printf("called!!\n");
+    printf("called!!\n");
+    printf("called!!\n");
+    printf("called!!\n");
+    printf("called!!\n");
+    printf("called!!\n");
+    printf("called!!\n");
     int max_reward = -16;
     int curr_reward;
     int curr_target[2];
