@@ -9,9 +9,14 @@
 #include <string.h>
 #include <arpa/inet.h>
 #include <pthread.h>
+#include <opencv2/opencv.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/objdetect.hpp>
+#include <opencv2/imgcodecs.hpp>
 #include "client_network.h"
 #include "modified_linetracing.h"
-#include "qrCode_C.h"
+
 
 typedef struct{
     int visited;
@@ -435,9 +440,28 @@ int main(int argc, char* argv[]){
     target_node_queue[2][1] = 2;
     target_node_queue[3][0] = 2;
     target_node_queue[3][1] = 3;
-    read_QR();
+
+    cv::VideoCapture cap(0);
+    cv::QRCodeDetector qrDecoder;
+    cv::Mat frame;
+    cv::Mat brightenedImage;
+    std::vector <cv::Point> points;
+    std::string qrCodeText;
     while(1){
-        qr = read_QR();
+        if (!cap.isOpened()) {  // Check if camera opened successfully
+            cv::VideoCapture temp_cap(0);
+            cap = temp_cap;
+        }
+        qrCodeTest = "";
+        cap >> frame;
+        if (frame.empty()) qr = -1;
+        cv::cvtColor(frame, brightenedImage, cv::COLOR_BGR2GRAY);
+        brightenedImage += cv::Scalar(50, 50, 50);
+        qrCodeText = qrDecoder.detectAndDecode(brightenedImage, points);
+        if (qrCodeText.size() > 0){
+            qr = std::stoi(qrCodeText);
+        }
+        else qr = -1;
         if(qr != -1){
             printf("QR success!\n");
             printf("%d\n",qr);
