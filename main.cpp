@@ -337,8 +337,8 @@ void* receiveData(void* arg) {
 void* sendAction(void* arg) {
     cAction_info* cA_info = (cAction_info*)arg;
     while (1) {
+        printf("trying to send");
         if(send_data_flag){
-            printf("trying to send");
             ClientAction cAction;
             cAction.row = action[0];
             cAction.col = action[1];
