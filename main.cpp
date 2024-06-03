@@ -54,7 +54,7 @@ struct action_queue_node{
 action_queue_node *queue_start;
 action_queue_node *queue_end;
 
-void find_next_target();
+int find_next_target();
 
 void queue_append(int action){
     action_queue_node *new_node;
@@ -87,7 +87,7 @@ int queue_pop(){
     }
 }
 
-void find_next_target(){
+int find_next_target(){
     int max_reward = -16;
     int curr_reward;
     int curr_target[2];
@@ -188,7 +188,7 @@ void find_next_target(){
         else if(dgist.map[curr_target[0] - 2][curr_target[1]].item.status == 1){
             curr_reward += dgist.map[curr_target[0] - 2][curr_target[1]].item.score;
         }
-        if(max_reward == curr_reward) return ((1 - curr_direction) % 4 == 3?) -1 : ((1 - curr_direction) % 4 == 3?);
+        if(max_reward == curr_reward) return ((1 - curr_direction) % 4 == 3) ? -1 : ((1 - curr_direction) % 4 == 3?);
     }
     if(curr_target[0] != 4){
         curr_reward = 0;
@@ -204,7 +204,7 @@ void find_next_target(){
         else if(dgist.map[curr_target[0] + 2][curr_target[1]].item.status == 1){
             curr_reward += dgist.map[curr_target[0] + 2][curr_target[1]].item.score;
         }
-        if(max_reward == curr_reward) return ((3 - curr_direction) % 4 == 3?) -1 : ((1 - curr_direction) % 4 == 3?);
+        if(max_reward == curr_reward) return ((3 - curr_direction) % 4 == 3) ? -1 : ((1 - curr_direction) % 4 == 3?);
     }
     if(curr_target[1] != 0){
         curr_reward = 0;
@@ -220,7 +220,7 @@ void find_next_target(){
         else if(dgist.map[curr_target[0]][curr_target[1]-2].item.status == 1){
             curr_reward += dgist.map[curr_target[0]][curr_target[1]-2].item.score;
         }
-        if(max_reward == curr_reward) return ((0 - curr_direction) % 4 == 3?) -1 : ((1 - curr_direction) % 4 == 3?);
+        if(max_reward == curr_reward) return ((0 - curr_direction) % 4 == 3) ? -1 : ((1 - curr_direction) % 4 == 3?);
     }
     if(curr_target[1] != 4){
         curr_reward = 0;
@@ -236,7 +236,7 @@ void find_next_target(){
         else if(dgist.map[curr_target[0]][curr_target[1]+2].item.status == 1){
             curr_reward += dgist.map[curr_target[0]][curr_target[1]+2].item.score;
         }
-        if(max_reward == curr_reward) return ((2 - curr_direction) % 4 == 3?) -1 : ((1 - curr_direction) % 4 == 3?);
+        if(max_reward == curr_reward) return ((2 - curr_direction) % 4 == 3) ? -1 : ((1 - curr_direction) % 4 == 3?);
     }
 }
 
