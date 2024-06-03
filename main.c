@@ -508,7 +508,7 @@ int main(int argc, char* argv[]){
         } else {
             controlMotors(file,1,50,1,50);
         } 
-        wait(10);
+        delay(10);
     }
     
 }
