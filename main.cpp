@@ -72,7 +72,7 @@ void queue_append(int action){
 
 int queue_pop(){
     if(queue_start == NULL){
-        return -2;
+        return 2;
     }
     else{
         int temp_int = queue_start->action;
