@@ -34,8 +34,6 @@ int curr_node[2] = {-1,-1};
 int before_node = 1;
 int leftout, leftin, rightin, rightout;
 int flag = 0;
-int sock;
-pthread_mutex_t lock;
 int dgist_refreshed = 0;
 int send_data_flag = 0;
 int action[3];
