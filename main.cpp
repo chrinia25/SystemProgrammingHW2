@@ -538,6 +538,7 @@ int main(int argc, char* argv[]){
                 }   
             }
             if(temp_x != curr_node[0] || temp_y != curr_node[1]){
+                printf("reached new node!\n");
                 curr_node[0] = temp_x;
                 curr_node[1] = temp_y;
                 //get new direction
