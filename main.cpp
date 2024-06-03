@@ -79,10 +79,6 @@ int queue_pop(){
         action_queue_node *temp_ptr = queue_start; 
         queue_start = queue_start->next_node;
         free(temp_ptr);
-        if(queue_start == NULL){
-            queue_append(find_next_target());
-            queue_append(0);
-        }
         return temp_int;
     }
 }
@@ -731,7 +727,7 @@ int main(int argc, char* argv[]){
             switch(next_action){
                 case -1:
                     turn_left(file);
-                    curr_direction = (curr_direction - 1) % 4;
+                    curr_direction = (curr_direction + 3) % 4;
                     break;
                 case 0:
                     go_straight(file);
@@ -743,6 +739,10 @@ int main(int argc, char* argv[]){
                 case 2:
                     go_back(file);
                     curr_direction = (curr_direction + 2) % 4;
+            }
+            if(queue_start == NULL){
+                queue_append(find_next_target());
+                queue_append(0);
             }
         }
         else if (leftin == HIGH && rightin == LOW){
