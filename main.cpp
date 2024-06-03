@@ -120,7 +120,6 @@ int find_next_target(){
             curr_target[1] = curr_node[1];
             break;
     }
-    int final_dir = 0;
     if(curr_target[0] != 0){
         curr_reward = 0;
         if(dgist.map[curr_target[0] - 1][curr_target[1]].item.status == 2){
@@ -674,7 +673,7 @@ int main(int argc, char* argv[]){
     queue_append(0);
     int init_path_flag = 0;
     while(1){
-        //printf("curr_position:%d/%d, curr_direction:%d, before_node: %d\n", curr_node[0],curr_node[1], curr_direction, before_node);
+        printf("curr_position:%d/%d, curr_direction:%d\n", curr_node[0],curr_node[1], curr_direction);
         if(qr_changed){
             qr_changed = 0;
             printf("QR success!\n");
