@@ -30,6 +30,7 @@ void turn_left(int file)
     int rightin = digitalRead(RIGHT1);
     int flag = 0;
     while(!flag){
+        delay(10);
         flag = controlMotors(file, 0, 50, 1, 70);
     }
     delay(200);
@@ -37,6 +38,7 @@ void turn_left(int file)
     rightin = digitalRead(RIGHT1);
     while(!(leftin  == LOW || rightin == LOW))
     {
+        delay(10);
         controlMotors(file, 0, 50, 1, 70);
         leftin = digitalRead(LEFT2);
         rightin = digitalRead(RIGHT1);
@@ -51,13 +53,14 @@ void turn_right(int file)
     int rightin = digitalRead(RIGHT1);
     int flag = 0;
     while(!flag){
+        delay(10);
         flag = controlMotors(file, 1, 70, 0, 50);
     }
     delay(200);
     leftin = digitalRead(LEFT2);
     rightin = digitalRead(RIGHT1);
-    while(!(leftin  == LOW || rightin == LOW))
-    {
+    while(!(leftin  == LOW || rightin == LOW)){
+        delay(10);
         controlMotors(file, 1, 70, 0, 50);
         leftin = digitalRead(LEFT2);
         rightin = digitalRead(RIGHT1);
@@ -82,7 +85,7 @@ void go_straight(int file)
 
 int is_intersection(int leftout,int leftin,int rightin, int rightout)
 {
-    if(leftout == LOW || rightout == LOW){
+    if((leftout == LOW && leftin == LOW) || (rightout == LOW && rightin == LOW)){
         printf("found corner!");
         return 1;
     } 
