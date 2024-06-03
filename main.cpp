@@ -452,7 +452,6 @@ int main(int argc, char* argv[]){
     rightin = digitalRead(RIGHT1);
     rightout = digitalRead(RIGHT2);
     //set_communication()
-    int qr;
     int temp_x;
     int temp_y;
     int player_num = -1;
