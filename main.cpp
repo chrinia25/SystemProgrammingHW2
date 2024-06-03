@@ -194,7 +194,7 @@ int find_next_target(){
         else if(dgist.map[curr_target[0] - 2][curr_target[1]].item.status == 1){
             curr_reward += dgist.map[curr_target[0] - 2][curr_target[1]].item.score;
         }
-        if(max_reward == curr_reward) return ((1 - curr_direction) % 4 == 3) ? -1 : ((1 - curr_direction) % 4);
+        if(max_reward == curr_reward) return ((5 - curr_direction) % 4 == 3) ? -1 : ((1 - curr_direction) % 4);
     }
     if(curr_target[0] != 4){
         curr_reward = 0;
@@ -210,7 +210,7 @@ int find_next_target(){
         else if(dgist.map[curr_target[0] + 2][curr_target[1]].item.status == 1){
             curr_reward += dgist.map[curr_target[0] + 2][curr_target[1]].item.score;
         }
-        if(max_reward == curr_reward) return ((3 - curr_direction) % 4 == 3) ? -1 : ((1 - curr_direction) % 4);
+        if(max_reward == curr_reward) return ((7 - curr_direction) % 4 == 3) ? -1 : ((1 - curr_direction) % 4);
     }
     if(curr_target[1] != 0){
         curr_reward = 0;
@@ -226,7 +226,7 @@ int find_next_target(){
         else if(dgist.map[curr_target[0]][curr_target[1]-2].item.status == 1){
             curr_reward += dgist.map[curr_target[0]][curr_target[1]-2].item.score;
         }
-        if(max_reward == curr_reward) return ((0 - curr_direction) % 4 == 3) ? -1 : ((1 - curr_direction) % 4);
+        if(max_reward == curr_reward) return ((4 - curr_direction) % 4 == 3) ? -1 : ((1 - curr_direction) % 4);
     }
     if(curr_target[1] != 4){
         curr_reward = 0;
@@ -242,7 +242,7 @@ int find_next_target(){
         else if(dgist.map[curr_target[0]][curr_target[1]+2].item.status == 1){
             curr_reward += dgist.map[curr_target[0]][curr_target[1]+2].item.score;
         }
-        if(max_reward == curr_reward) return ((2 - curr_direction) % 4 == 3) ? -1 : ((1 - curr_direction) % 4);
+        if(max_reward == curr_reward) return ((6 - curr_direction) % 4 == 3) ? -1 : ((1 - curr_direction) % 4);
     }
 }
 
