@@ -358,8 +358,8 @@ void* networking(void* arg) {
 }
 
 void adjust_left(int file_dir){
-    while(!(leftin == LOW || rightin == LOW)){
-        flag = controlMotors(file_dir, 1, 0, 1, 50);
+    while(!(leftin == LOW && rightin == LOW)){
+        flag = controlMotors(file_dir, 1, 30, 1, 50);
         leftout = digitalRead(LEFT1);
         leftin = digitalRead(LEFT2);
         rightin = digitalRead(RIGHT1);
@@ -368,8 +368,8 @@ void adjust_left(int file_dir){
     flag = 0;
 }
 void adjust_right(int file_dir){
-    while(!(leftin == LOW || rightin == LOW)){
-        controlMotors(file_dir, 1, 50, 1, 0);
+    while(!(leftin == LOW && rightin == LOW)){
+        controlMotors(file_dir, 1, 50, 1, 30);
         leftout = digitalRead(LEFT1);
         leftin = digitalRead(LEFT2);
         rightin = digitalRead(RIGHT1);
@@ -479,10 +479,8 @@ int main(int argc, char* argv[]){
                 }
                 else send_data(temp_x, temp_y, 0);
             }
-            printf("1\n");
             update_action();
         }
-        printf("2\n");
         leftout = digitalRead(LEFT1);
         leftin = digitalRead(LEFT2);
         rightin = digitalRead(RIGHT1);
@@ -506,17 +504,15 @@ int main(int argc, char* argv[]){
                     turn_left(file);
                     curr_direction = (curr_direction + 2) / 4;
             }
-            printf("3\n");
             update_action();
         }
-        else if (leftout == LOW) {
+        else if (leftin == LOW && rightin == HIGH) {
             adjust_left(file);
-        } else if (rightout == LOW) {
+        } else if (rightin == LOW && leftout == HIGH) {
             adjust_right(file);
         } else {
             controlMotors(file,1,70,1,70);
         } 
-        printf("4\n");
         
     }
     
