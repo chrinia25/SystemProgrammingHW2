@@ -1,20 +1,32 @@
-all:
-	gcc -Wall -g server.c -o Server -lpthread
-	gcc -Wall -g client_notreal.c -o Client -lpthread
-	gcc -Wall -g client_network.c network_header_test.c -o ClientNetworkTest -lpthread
+# Define the compiler
+CC = gcc
 
-all: net_header_test
+# Define the compiler flags
+CFLAGS = -Wall -Wextra -std=c11 -pthread
 
-net_header_test: network_header_test.o client_network.o
-	gcc -o net_header_test client_network.o network_header_test.o
+# Define the target executable
+TARGET = net_header_test
 
-client_network.o: client_network.c client_network.h
-	gcc -o client_network.o client_network.c
+# Define the source files
+SOURCES = network_header_test.c client_network.c
 
-network_header_test.o: network_header_test.c client_network.h
-	gcc -o network_header_test.o network_header_test.c
+# Define the object files
+OBJECTS = $(SOURCES:.c=.o)
 
+# Default target
+all: $(TARGET)
 
+# Rule to link the executable
+$(TARGET): $(OBJECTS)
+	$(CC) $(CFLAGS) -o $@ $(OBJECTS)
 
+# Rule to compile the object files
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Clean up build files
 clean:
-	rm -f net_header_test *.o
+	rm -f $(TARGET) $(OBJECTS)
+
+# Phony targets
+.PHONY: all clean

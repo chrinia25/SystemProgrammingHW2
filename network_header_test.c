@@ -8,6 +8,9 @@
 
 
 int main(int argc, char *argv[]){
+    if(argc != 2){
+        printf("correct usage: add ip address and port");
+    }
     cAction_info cActionInf;
     ClientAction cp; 
     networking_info* nInf;
