@@ -505,7 +505,7 @@ int main(int argc, char* argv[]){
             //         turn_left(file);
             //         turn_left(file);
             //         curr_direction = (curr_direction + 2) / 4;
-            }
+            //}
             update_action();
         }
         else if (leftin == HIGH && rightin == LOW){
