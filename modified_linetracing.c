@@ -82,6 +82,6 @@ void go_straight(int file)
 
 int is_intersection(int leftout,int leftin,int rightin, int rightout)
 {
-    if((leftout == LOW && leftin == LOW)|| (rightout == LOW && rightin == LOW)) return 1;
+    if(leftout == LOW || rightout == LOW) return 1;
     else return 0;
 }
