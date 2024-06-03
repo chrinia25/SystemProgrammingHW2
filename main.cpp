@@ -57,7 +57,7 @@ action_queue_node *queue_end;
 
 void queue_append(int action){
     action_queue_node *new_node;
-    new_node = malloc(sizeof(new_node));
+    new_node = (action_queue_node *)malloc(sizeof(new_node));
     new_node->action = action; 
     new_node->next_node = NULL;
     if(queue_start == NULL){
