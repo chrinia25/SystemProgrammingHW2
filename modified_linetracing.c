@@ -82,7 +82,27 @@ void go_straight(int file)
     }
 
 }
+void go_back(int file)
+{
+    int leftin = digitalRead(LEFT2);
+    int rightin = digitalRead(RIGHT1);
+    int flag = 0;
+    while(!flag){
+        delay(10);
+        flag = controlMotors(file, 0, 50, 1, 70);
+    }
+    delay(600);
+    leftin = digitalRead(LEFT2);
+    rightin = digitalRead(RIGHT1);
+    while(!(leftin  == LOW || rightin == LOW))
+    {
+        delay(10);
+        controlMotors(file, 0, 50, 1, 70);
+        leftin = digitalRead(LEFT2);
+        rightin = digitalRead(RIGHT1);
+    }
 
+}
 int is_intersection(int leftout,int leftin,int rightin, int rightout)
 {
     if((leftout == LOW && leftin == LOW) || (rightout == LOW && rightin == LOW)){

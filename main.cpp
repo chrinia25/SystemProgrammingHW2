@@ -529,7 +529,7 @@ int main(int argc, char* argv[]){
                     queue_append(1);
                 }   
                 else if(temp_x == 4 || temp_y == 4){
-                    queue_append(-1);
+                    queue_append(2);//has to change to -1
                     queue_append(0);
                     queue_append(0);
                     queue_append(1);
@@ -572,8 +572,7 @@ int main(int argc, char* argv[]){
                     curr_direction = (curr_direction + 1) / 4;
                     break;
                 case 2:
-                    turn_left(file);
-                    turn_left(file);
+                    go_back(int file);
                     curr_direction = (curr_direction + 2) / 4;
             }
         }
