@@ -498,6 +498,7 @@ int main(int argc, char* argv[]){
     int temp_x;
     int temp_y;
     int player_num = -1;
+    queue_start = NULL;
     queue_append(0);
     int init_path_flag = 0;
     while(1){
