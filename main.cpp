@@ -478,7 +478,7 @@ int main(int argc, char* argv[]){
                     player_num = 0;
                 }   
                 else if(curr_node[0] == 4 && curr_node[1] == 4){
-                    curr_direction = 4;
+                    curr_direction = 3;
                     player_num = 1;
                 }   
             }
