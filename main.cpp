@@ -452,7 +452,7 @@ int main(int argc, char* argv[]){
             cv::VideoCapture temp_cap(0);
             cap = temp_cap;
         }
-        qrCodeTest = "";
+        qrCodeText = "";
         cap >> frame;
         if (frame.empty()) qr = -1;
         cv::cvtColor(frame, brightenedImage, cv::COLOR_BGR2GRAY);
