@@ -508,6 +508,8 @@ int main(int argc, char* argv[]){
             printf("%d\n",qr);
             printf("==========================\n");
             printf("0\n");
+            temp_x = qr / 10;
+            temp_y = qr % 10;
             if(init_path_flag == 0){
                 init_path_flag = 1;
                 if(curr_node[0] == 0 && curr_node[1] == 0){
@@ -533,8 +535,6 @@ int main(int argc, char* argv[]){
                     queue_append(-1);
                 }   
             }
-            temp_x = qr / 10;
-            temp_y = qr % 10;
             if(temp_x != curr_node[0] || temp_y != curr_node[1]){
                 if((temp_x  == curr_node[0]) && (temp_y == curr_node[1] + 1)) curr_direction = 0;
                 else if((temp_x  == curr_node[0] + 1) && (temp_y == curr_node[1])) curr_direction = 1;
