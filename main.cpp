@@ -44,10 +44,12 @@ int file;
 int qr_changed = 0;
 int qr;
 
-typedef struct{
+typedef struct action_queue_node action_queue_node;
+
+struct action_queue_node{
     int action;
     action_queue_node *next_node;
-}action_queue_node;
+};
 
 action_queue_node *queue_start;
 action_queue_node *queue_end;
@@ -55,14 +57,14 @@ action_queue_node *queue_end;
 
 void queue_append(int action){
     action_queue_node *new_node;
-    new_node = malloc(sizeof(action_queue_node));
-    *new_node.action = action; 
-    *new_node->next_node = NULL;
+    new_node = malloc(sizeof(new_node));
+    new_node->action = action; 
+    new_node->next_node = NULL;
     if(queue_start == NULL){
         queue_start = new_node;
     }
     else{
-        queue_end.next_node = new_node;
+        queue_end->next_node = new_node;
     }
     queue_end = new_node;
 }
@@ -72,9 +74,9 @@ int queue_pop(){
         return -2;
     }
     else{
-        int temp_int = *queue_start.action;
+        int temp_int = queue_start->action;
         action_queue_node *temp_ptr = queue_start; 
-        queue_start = *queue_start.next_node;
+        queue_start = queue_start->next_node;
         free(temp_ptr);
         return temp_int;
     }
@@ -297,7 +299,6 @@ void* receiveData(void* arg) {
         int valRead = read(sock, &dgist, sizeof(DGIST));
         if (valRead >= 0) {
             dgist_refreshed = 1;
-            update_action();
         }
         pthread_mutex_lock(&lock);
         // // Print map and player information
@@ -497,14 +498,6 @@ int main(int argc, char* argv[]){
     int temp_x;
     int temp_y;
     int player_num = -1;
-    target_node_queue[0][0] = 1;
-    target_node_queue[0][1] = 2;
-    target_node_queue[1][0] = 2;
-    target_node_queue[1][1] = 1;
-    target_node_queue[2][0] = 3;
-    target_node_queue[2][1] = 2;
-    target_node_queue[3][0] = 2;
-    target_node_queue[3][1] = 3;
     queue_append(0);
     int init_path_flag = 0;
     while(1){
@@ -556,7 +549,6 @@ int main(int argc, char* argv[]){
                 }
                 else send_data(temp_x, temp_y, 0);
             }
-            update_action();
         }
         leftout = digitalRead(LEFT1);
         leftin = digitalRead(LEFT2);
@@ -581,7 +573,6 @@ int main(int argc, char* argv[]){
                     turn_left(file);
                     curr_direction = (curr_direction + 2) / 4;
             }
-            update_action();
         }
         else if (leftin == HIGH && rightin == LOW){
             controlMotors(file,1,70,1,0);
