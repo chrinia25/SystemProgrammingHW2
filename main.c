@@ -436,38 +436,38 @@ int main(int argc, char* argv[]){
     read_QR();
     while(1){
         //QR_read
-        qr = read_QR();
-        if(qr != -1){
-            printf("QR success!\n");
-            printf("%d\n",qr);
-            printf("==========================\n");
-            printf("0\n");
-            if(player_num == -1){
-                if(curr_node[0] == dgist.players[0].row && curr_node[1] == dgist.players[0].col){
-                    player_num = 0;
-                }   
-                else if(curr_node[0] == dgist.players[1].row && curr_node[1] == dgist.players[1].col){
-                    player_num = 1;
-                }   
-            }
-            temp_x = qr / 10;
-            temp_y = qr % 10;
-            if(temp_x != curr_node[0] || temp_y != curr_node[1]){
-                if((temp_x  == curr_node[0]) && (temp_y == curr_node[1] + 1)) curr_direction = 0;
-                else if((temp_x  == curr_node[0] + 1) && (temp_y == curr_node[1])) curr_direction = 1;
-                else if((temp_x  == curr_node[0]) && (temp_y == curr_node[1] - 1)) curr_direction = 2;
-                else if((temp_x  == curr_node[0] - 1) && (temp_y == curr_node[1])) curr_direction = 3;
-                before_node = 1;
-                curr_node[0] = temp_x;
-                curr_node[1] = temp_y;
-                //get new direction
-                if((temp_x == 1 && temp_y == 2) || (temp_x == 2 && temp_y == 1) || (temp_x == 2 && temp_y == 3) || (temp_x == 3 && temp_y == 2)){
-                    send_data(temp_x, temp_y,1);
-                }
-                else send_data(temp_x, temp_y, 0);
-            }
-            update_action();
-        }
+        // qr = read_QR();
+        // if(qr != -1){
+        //     printf("QR success!\n");
+        //     printf("%d\n",qr);
+        //     printf("==========================\n");
+        //     printf("0\n");
+        //     if(player_num == -1){
+        //         if(curr_node[0] == dgist.players[0].row && curr_node[1] == dgist.players[0].col){
+        //             player_num = 0;
+        //         }   
+        //         else if(curr_node[0] == dgist.players[1].row && curr_node[1] == dgist.players[1].col){
+        //             player_num = 1;
+        //         }   
+        //     }
+        //     temp_x = qr / 10;
+        //     temp_y = qr % 10;
+        //     if(temp_x != curr_node[0] || temp_y != curr_node[1]){
+        //         if((temp_x  == curr_node[0]) && (temp_y == curr_node[1] + 1)) curr_direction = 0;
+        //         else if((temp_x  == curr_node[0] + 1) && (temp_y == curr_node[1])) curr_direction = 1;
+        //         else if((temp_x  == curr_node[0]) && (temp_y == curr_node[1] - 1)) curr_direction = 2;
+        //         else if((temp_x  == curr_node[0] - 1) && (temp_y == curr_node[1])) curr_direction = 3;
+        //         before_node = 1;
+        //         curr_node[0] = temp_x;
+        //         curr_node[1] = temp_y;
+        //         //get new direction
+        //         if((temp_x == 1 && temp_y == 2) || (temp_x == 2 && temp_y == 1) || (temp_x == 2 && temp_y == 3) || (temp_x == 3 && temp_y == 2)){
+        //             send_data(temp_x, temp_y,1);
+        //         }
+        //         else send_data(temp_x, temp_y, 0);
+        //     }
+        //     update_action();
+        // }
         leftout = digitalRead(LEFT1);
         leftin = digitalRead(LEFT2);
         rightin = digitalRead(RIGHT1);
