@@ -529,7 +529,7 @@ int main(int argc, char* argv[]){
                     queue_append(1);
                 }   
                 else if(temp_x == 4 || temp_y == 4){
-                    queue_append(2);//has to change to -1
+                    queue_append(-1);
                     queue_append(0);
                     queue_append(0);
                     queue_append(1);
@@ -587,7 +587,7 @@ int main(int argc, char* argv[]){
         } else if (rightout == LOW) {
             adjust_right(file);
         } else {
-            controlMotors(file,1,70,1,70);
+            controlMotors(file,1,90,1,90);
         } 
         delay(10);
     }
