@@ -105,6 +105,7 @@ int bfs(int target_x, int target_y){
             }
         }
     }
+    printf("bfs first stage success\n");
     if(bfs_nodes[target_x][target_y].visited){
         int bfs_last_node[2];
         int bfs_curr_node[2];
