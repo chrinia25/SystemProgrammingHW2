@@ -459,8 +459,25 @@ int main(int argc, char* argv[]){
         emergency = 1;
         if((curr_node[0] % 2) == 1 || (curr_node[1] % 2) == 1){
             queue_append(0);
+            queue_append(find_next_target);
+            queue_append(0);
         }
         else{
+            switch (curr_direction)
+            {
+            case 0:
+                curr_node[1] --;
+                break;
+            case 1:
+                curr_node[0] --;
+                break;
+            case 2:
+                curr_node[1] ++;
+                break;
+            case 3:
+                curr_node[0] ++;
+                break;
+            }
             queue_append(find_next_target());
             queue_append(0);
         }
