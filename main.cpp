@@ -43,7 +43,7 @@ int action[3];
 int file;
 int qr_changed = 0;
 int qr;
-
+int reach_flag = 0;
 typedef struct action_queue_node action_queue_node;
 
 struct action_queue_node{
@@ -470,6 +470,7 @@ int main(int argc, char* argv[]){
     while(1){
         printf("curr_position:%d/%d, curr_direction:%d\n", curr_node[0],curr_node[1], curr_direction);
         if(qr_changed){
+            reach_flag = 1;
             qr_changed = 0;
             printf("QR success!\n");
             printf("%d\n",qr);
@@ -521,6 +522,24 @@ int main(int argc, char* argv[]){
         rightout = digitalRead(RIGHT2);
 
         if(is_intersection(leftout, leftin, rightin, rightout)){
+            if(!reach_flag){
+                switch (curr_direction)
+                {
+                case 0:
+                    curr_node[1] += 1;                
+                    break;
+                case 1:
+                    curr_node[0] += 1;                
+                    break;
+                case 2:
+                    curr_node[1] -= 1;                
+                    break;
+                case 3:
+                    curr_node[0] -= 1;                
+                    break;
+                }
+            }
+            reach_flag = 0;
             next_action = queue_pop();
             printf("attempting action %d", next_action);
             switch(next_action){
