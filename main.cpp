@@ -417,7 +417,7 @@ void adjust_right(int file_dir){
 }
 
 int main(int argc, char* argv[]){
-    if(argc != 2){
+    if(argc != 3){
         printf("correct usage: <executable name> ip_address port");
     }
     cAction_info cActionInf;
@@ -468,7 +468,6 @@ int main(int argc, char* argv[]){
     int init_path_flag = 0;
     delay(1000);
     while(1){
-        printf("curr_position:%d/%d, curr_direction:%d\n", curr_node[0],curr_node[1], curr_direction);
         if(qr_changed){
             reach_flag = 1;
             qr_changed = 0;
