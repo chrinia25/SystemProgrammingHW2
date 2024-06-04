@@ -16,20 +16,18 @@ static inline int makeRandomInt(int max, int min) {
 // Thread entry function to handle each client
 void* handleClient(void *arg) {
 
-    DGIST* dgist = (DGIST*)arg;
+	tmpDGIST* tmpDG = (tmpDGIST*)arg;
+    DGIST* dgist = tmpDG->dgist;
     client_info* client;
     int client_socket;
     pthread_t tid;
-	int pId;
-
-    // Determine which client it will handle
-    if (dgist->players[MAX_CLIENTS - 1].socket == -1) pId = 0;
-    else pId = 1; 
+	int pId = tmpDG->cIndex;
 
 	client = &(dgist->players[pId]);
 
     client_socket = client->socket;
     ClientAction cAction;
+	free(tmpDG);
 
     int row, col, valRead;
 
@@ -86,7 +84,7 @@ void* handleClient(void *arg) {
     return NULL;
 }
 
-void setItem(DGIST* dPtr) {
+int setItem(DGIST* dPtr) {
 
     int row, col, score;
 
@@ -99,11 +97,17 @@ void setItem(DGIST* dPtr) {
 
     score = makeRandomInt(MAX_SCORE, 1);
 
+	if(((row-col == 0) && (row == 4 || row == 0))){
+		sem_post(&mapLock);
+		return 0;
+	} 
+
     dPtr->map[row][col].item.status = item;
     dPtr->map[row][col].item.score = score;
 
     sem_post(&mapLock);
 	printMap(dPtr);
+	return 1;
 }
 
 // Broadcast map information to all clients
@@ -117,8 +121,10 @@ void* broadcastInformation(void* arg) {
     sem_wait(&mapLock);
     for (int i = 0; i < MAX_CLIENTS; i++) {
         client = (dgist->players)[i];
-		client_socket = client.socket;
-		send(client_socket, dgist, sizeof(DGIST), 0);
+		if(client.socket != -1){
+			client_socket = client.socket;
+			send(client_socket, dgist, sizeof(DGIST), 0);
+		}
     }
     sem_post(&mapLock);
 
@@ -191,6 +197,8 @@ int main(int argc, char *argv[]) {
     int addrlen = sizeof(address);
     pthread_t tid;
     int numClient = 0;
+	
+	srand(time(NULL));
 
 	if (argc != 2) {
         fprintf(stderr, "Usage: %s <number>\n", argv[0]);
@@ -221,9 +229,11 @@ int main(int argc, char *argv[]) {
     }
 
     // Place items in the map
-    for (int i = 0; i < INITIAL_ITEM; i++) {
-        setItem(&dgist);
-    }
+	int k = 0;
+
+	while(k < INITIAL_ITEM){
+		k += setItem(&dgist);
+	}
 
     printf("SERVER DATA INITIALIZING COMPLETE\n");
 
@@ -259,9 +269,14 @@ int main(int argc, char *argv[]) {
     // Start item handling thread
     pthread_create(&tid, NULL, handleItem, (void *)&dgist);
 
+	Dictionary* clientDict = create_dictionary();
+
     // Get clients
     while (1) {
         int new_socket;
+		int ipLast;
+		int cIndex;
+        client_info newClient;
 
         if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
             perror("accept");
@@ -274,19 +289,45 @@ int main(int argc, char *argv[]) {
             ntohs(address.sin_port)
         );
 
-        client_info newClient;
+		ipLast = get_last_part_as_int(inet_ntoa(address.sin_addr));
+		cIndex = dictionary_get(clientDict, ipLast);
 
-        newClient.socket = new_socket;
-        newClient.address = address;
-        newClient.score = 0;
-        newClient.row = -1;
-        newClient.col = -1;
-        newClient.bomb = INITIAL_BOMB;
+		if(cIndex != -1){ //client exist
+			dgist.players[cIndex].socket = new_socket;;
+			newClient.address = address;
+		}else{//client does not exist
+			cIndex = numClient;
+			dictionary_add(clientDict, ipLast, cIndex);
+			newClient.socket = new_socket;
+			newClient.address = address;
+			newClient.score = 0;
+			if(cIndex == 0){
+				newClient.row = 0;
+				newClient.col = 0;
+			}
+			else{
+				newClient.row = 4;
+				newClient.col = 4;
+			}
+			newClient.bomb = INITIAL_BOMB;
+			dgist.players[cIndex] = newClient;
+			numClient++;
+		} 
+		
 
-        dgist.players[numClient] = newClient;
-        numClient++;
+		if(numClient > MAX_CLIENTS){
+            perror("MAX CLIENT EXCCEDED");
+            exit(EXIT_FAILURE);
+		}
 
-        pthread_create(&tid, NULL, handleClient, (void *)&dgist);
+
+	printPlayer(&dgist);
+	tmpDGIST* tDG = (tmpDGIST*)malloc(sizeof(tmpDGIST));;
+	tDG->dgist = &dgist;
+	tDG->cIndex = cIndex;
+        pthread_create(&tid, NULL, handleClient, (void *)tDG);
+	pthread_create(&tid, NULL, broadcastInformation, (void *)&dgist);
+	pthread_join(tid, NULL);
     }
 
     return 0;

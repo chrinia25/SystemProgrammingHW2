@@ -406,19 +406,6 @@ void adjust_right(int file_dir){
 }
 
 int main(int argc, char* argv[]){
-    if(argc == 6){
-        curr_node[0] = atoi(argv[3]);
-        curr_node[1] = atoi(argv[4]);
-        curr_direction = atoi(argv[5]);
-        emergency = 1;
-        if((curr_node[0] % 2) == 1 || (curr_node[1] % 2) == 1){
-            queue_append(0);
-        }
-        else{
-            queue_append(find_next_target());
-            queue_append(0);
-        }
-    }
     cAction_info cActionInf;
     ClientAction cp; 
     networking_info* nInf;
@@ -464,9 +451,22 @@ int main(int argc, char* argv[]){
     int player_num = -1;
     queue_start = NULL;
     int init_path_flag = 0;
+    delay(1000);
+    if(argc == 6){
+        curr_node[0] = atoi(argv[3]);
+        curr_node[1] = atoi(argv[4]);
+        curr_direction = atoi(argv[5]);
+        emergency = 1;
+        if((curr_node[0] % 2) == 1 || (curr_node[1] % 2) == 1){
+            queue_append(0);
+        }
+        else{
+            queue_append(find_next_target());
+            queue_append(0);
+        }
+    }
     if(!emergency) queue_append(0);
     else init_path_flag = 1;
-    delay(1000);
     while(1){
         if(qr_changed){
             reach_flag = 1;
