@@ -91,7 +91,7 @@ void go_back(int file)
         delay(10);
         flag = controlMotors(file, 0, 70, 1, 70);
     }
-    delay(2000);
+    delay(1200);
     leftin = digitalRead(LEFT2);
     rightin = digitalRead(RIGHT1);
     while(!(leftin  == LOW || rightin == LOW))
