@@ -482,7 +482,7 @@ int main(int argc, char* argv[]){
             queue_append(0);
         }
     }
-    if(!emergency) queue_append(0);
+    if(emergency != 1) queue_append(0);
     else init_path_flag = 1;
     while(1){
         if(qr_changed){
