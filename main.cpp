@@ -459,7 +459,7 @@ int main(int argc, char* argv[]){
         emergency = 1;
         if((curr_node[0] % 2) == 1 || (curr_node[1] % 2) == 1){
             queue_append(0);
-            queue_append(find_next_target);
+            queue_append(find_next_target());
             queue_append(0);
         }
         else{
