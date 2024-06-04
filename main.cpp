@@ -27,7 +27,7 @@ typedef struct{
 bfs_node bfs_nodes[5][5]; 
 
 DGIST dgist;
-
+int emergency = 0;
 int next_action = 0;
 int curr_direction = 0;
 int curr_node[2] = {-1,-1};
@@ -417,8 +417,18 @@ void adjust_right(int file_dir){
 }
 
 int main(int argc, char* argv[]){
-    if(argc != 3){
-        printf("correct usage: <executable name> ip_address port");
+    if(argc == 6){
+        curr_node[0] = atoi(argv[3]);
+        curr_node[1] = atoi(argv[4]);
+        curr_direction = atoi(argv[5]);
+        emergency = 1;
+        if((curr_node[0] % 2) == 1 || (curr_node[1] % 2) == 1){
+            queue_append(0);
+        }
+        else{
+            queue_append(find_next_target());
+            queue_append(0);
+        }
     }
     cAction_info cActionInf;
     ClientAction cp; 
@@ -464,17 +474,14 @@ int main(int argc, char* argv[]){
     int temp_y;
     int player_num = -1;
     queue_start = NULL;
-    queue_append(0);
     int init_path_flag = 0;
+    if(!emergency) queue_append(0);
+    else init_path_flag = 1;
     delay(1000);
     while(1){
         if(qr_changed){
             reach_flag = 1;
             qr_changed = 0;
-            printf("QR success!\n");
-            printf("%d\n",qr);
-            printf("==========================\n");
-            printf("0\n");
             temp_x = qr / 10;
             temp_y = qr % 10;
             if(init_path_flag == 0){
@@ -505,6 +512,10 @@ int main(int argc, char* argv[]){
                 }   
             }
             if(temp_x != curr_node[0] || temp_y != curr_node[1]){
+                printf("QR success!\n");
+                printf("%d\n",qr);
+                printf("==========================\n");
+                printf("0\n");
                 printf("reached new node!\n");
                 curr_node[0] = temp_x;
                 curr_node[1] = temp_y;
