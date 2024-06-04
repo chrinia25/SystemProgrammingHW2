@@ -253,188 +253,6 @@ void send_data(int row, int col, int action_type){
     send_data_flag = 1;
 }
 
-
-// int bfs(int target_x, int target_y){
-//     printf("bfs called!\n");
-//     for(int i = 0;i < 5; i++){
-//         for(int j = 0;j < 5; j++){
-//             printf("here?\n");
-//             bfs_nodes[i][j].parent_pos[0] = -2;
-//             bfs_nodes[i][j].parent_pos[1] = -2;
-//             bfs_nodes[i][j].visited = 0;
-//             bfs_nodes[i][j].has_bomb = (dgist.map[i][j].item.status == 2) ? 1 : 0 ;
-//         }
-//     }
-//     printf("bfs init stage passed");
-//     bfs_nodes[curr_node[0]][curr_node[1]].visited = 1;
-//     int bfs_flag = 1;
-//     while(bfs_flag){
-//         bfs_flag = 0;
-//         for(int i = 0; i < 5; i++){
-//             for(int j = 0; i < 5; j++){
-//                 if(bfs_nodes[i][j].visited == 0){
-//                     if(i >  0){
-//                         if(bfs_nodes[i-1][j].visited && bfs_nodes[i-1][j].has_bomb == 0){
-//                             bfs_nodes[i][j].parent_pos[0] = i-1;
-//                             bfs_nodes[i][j].parent_pos[1] = j;
-//                             bfs_nodes[i][j].visited = 1;
-//                             bfs_flag = 1;
-//                         }
-//                     }
-//                     else if(i < 4){
-//                         if(bfs_nodes[i+1][j].visited && bfs_nodes[i+1][j].has_bomb == 0){
-//                             bfs_nodes[i][j].parent_pos[0] = i + 1;
-//                             bfs_nodes[i][j].parent_pos[1] = j;
-//                             bfs_nodes[i][j].visited = 1;
-//                             bfs_flag = 1;
-//                         }
-//                     }
-//                     else if(j >  0){
-//                         if(bfs_nodes[i][j-1].visited && bfs_nodes[i][j-1].has_bomb == 0){
-//                             bfs_nodes[i][j].parent_pos[0] = i;
-//                             bfs_nodes[i][j].parent_pos[1] = j - 1;
-//                             bfs_nodes[i][j].visited = 1;
-//                             bfs_flag = 1;
-//                         }
-//                     }
-//                     else if(j <  4){
-//                         if(bfs_nodes[i][j+1].visited && bfs_nodes[i][j+1].has_bomb == 0){
-//                             bfs_nodes[i][j].parent_pos[0] = i;
-//                             bfs_nodes[i][j].parent_pos[1] = j + 1;
-//                             bfs_nodes[i][j].visited = 1;
-//                             bfs_flag = 1;
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     }
-//     printf("bfs first stage success\n");
-//     if(bfs_nodes[target_x][target_y].visited){
-//         int bfs_last_node[2];
-//         int bfs_curr_node[2];
-//         bfs_last_node[0] = target_x;
-//         bfs_last_node[1] = target_y;
-//         bfs_curr_node[0] = bfs_nodes[target_x][target_y].parent_pos[0];
-//         bfs_curr_node[1] = bfs_nodes[target_x][target_y].parent_pos[1];
-//         while(!(bfs_curr_node[0] == curr_node[0] && bfs_curr_node[1] == curr_node[1])){
-//             bfs_last_node[0] = bfs_curr_node[0];
-//             bfs_last_node[1] = bfs_curr_node[1];
-//             bfs_curr_node[0] = bfs_nodes[bfs_last_node[0]][bfs_last_node[1]].parent_pos[0];
-//             bfs_curr_node[1] = bfs_nodes[bfs_last_node[0]][bfs_last_node[1]].parent_pos[1];
-//         }
-//         int target_direction;
-//         if(bfs_last_node[0] == curr_node[0] + 1){
-//             target_direction = 1;
-//         }
-//         else if(bfs_last_node[0] == curr_node[0] - 1){
-//             target_direction = 3;
-//         }
-//         else if(bfs_last_node[1] == curr_node[1] + 1){
-//             target_direction = 0;
-//         }
-//         else if(bfs_last_node[1] == curr_node[1] - 1){
-//             target_direction = 2;
-//         }
-//         return ((target_direction - curr_direction) % 4 == 3)? -1 : ((target_direction - curr_direction) % 4);
-//     }    
-//     else return -2;//not reachable!
-// }
-
-// int find_path(int target_x, int target_y){
-//     printf("find_path called!\n\n");
-//     if(before_node == 0){
-//         switch(curr_direction){
-//             case 0://east
-//                 if(dgist.map[curr_node[0]][curr_node[1] + 1].item.status == 2){
-//                     if(dgist.map[curr_node[0]][curr_node[1]].item.status == 2) return 2;
-//                     else{
-//                         turn_left(file);
-//                         curr_direction = (curr_direction + 2) % 4;
-//                         before_node = 1;
-//                         return find_path(target_x, target_y);
-//                     }
-//                 }
-//                 break;
-//             case 1://south
-//                 if(dgist.map[curr_node[0] + 1][curr_node[1]].item.status == 2){
-//                     if(dgist.map[curr_node[0]][curr_node[1]].item.status == 2) return 2;
-//                     else{
-//                         turn_left(file);
-//                         curr_direction = (curr_direction + 2) % 4;
-//                         before_node = 1;
-//                         return find_path(target_x, target_y);
-//                     }
-//                 }
-//                 break;
-//             case 2://west
-//                 if(dgist.map[curr_node[0]][curr_node[1] - 1].item.status == 2){
-//                     if(dgist.map[curr_node[0]][curr_node[1]].item.status == 2) return 2;
-//                     else{
-//                         turn_left(file);
-//                         curr_direction = (curr_direction + 2) % 4;
-//                         before_node = 1;
-//                         return find_path(target_x, target_y);
-//                     }
-//                 }
-//                 break;
-//             case 3://north
-//                 if(dgist.map[curr_node[0] - 1][curr_node[1]].item.status == 2){
-//                     if(dgist.map[curr_node[0]][curr_node[1]].item.status == 2) return 2;
-//                     else{
-//                         turn_left(file);
-//                         curr_direction = (curr_direction + 2) % 4;
-//                         before_node = 1;
-//                         return find_path(target_x, target_y);
-//                     }
-//                 }
-//                 break;
-//         }
-//         return 2;
-//     }
-//     return bfs(target_x,target_y);
-// }
-
-// void push_target_queue(int next_x, int next_y){
-//     for(int i = 0; i < 3; i ++){
-//         target_node_queue[i][0] = target_node_queue[i+1][0]; 
-//         target_node_queue[i][1] = target_node_queue[i+1][1];
-//     }
-//     target_node_queue[3][0] = next_x;
-//     target_node_queue[3][1] = next_y;
-// }
-
-// void update_action(){
-//     if(curr_node[0] == 1 && curr_node[1] == 2 && target_node_queue[0][0] == 1 && target_node_queue[0][1] == 2){
-//         push_target_queue(0,0);
-//     }
-//     else if(curr_node[0] == 2 && curr_node[1] == 1 && target_node_queue[0][0] == 2 && target_node_queue[0][1] == 1){
-//         push_target_queue(4,0);
-//     }
-//     else if(curr_node[0] == 2 && curr_node[1] == 3 && target_node_queue[0][0] == 2 && target_node_queue[0][1] == 3){
-//         push_target_queue(4,4);
-//     }
-//     else if(curr_node[0] == 3 && curr_node[1] == 2 && target_node_queue[0][0] == 3 && target_node_queue[0][1] == 2){
-//         push_target_queue(0,4);
-//     }
-//     else if(curr_node[0] == 0 && curr_node[1] == 0 && target_node_queue[0][0] == 0 && target_node_queue[0][1] == 0){
-//         push_target_queue(4,0);
-//     } 
-//     else if(curr_node[0] == 4 && curr_node[1] == 0 && target_node_queue[0][0] == 4 && target_node_queue[0][1] == 0){
-//         push_target_queue(4,4);
-//     }
-//     else if(curr_node[0] == 4 && curr_node[1] == 4 && target_node_queue[0][0] == 4 && target_node_queue[0][1] == 4){
-//         push_target_queue(0,4);
-//     }
-//     else if(curr_node[0] == 0 && curr_node[1] == 4 && target_node_queue[0][0] == 0 && target_node_queue[0][1] == 4){
-//         push_target_queue(0,0);
-//     }
-//     next_action = -2;
-//     while(next_action == -2){
-//         next_action = find_path(target_node_queue[0][0],target_node_queue[0][1]);
-//     }
-// }
-
 void* read_qr(void * arg){
     cv::VideoCapture cap(0);
     cv::QRCodeDetector qrDecoder;
@@ -519,27 +337,7 @@ void* sendAction(void* arg) {
             }
             pthread_mutex_unlock(&lock);
         // int row, col, action;
-        // printf("Enter your action (row col action): ");
-        // scanf("%d %d %d", &row, &col, &action);
 
-        // ClientAction cAction;
-        // cAction.row = row;
-        // cAction.col = col;
-        // cAction.action = (enum Action)action;
-        
-        //printf("pthread_mutex_lock - before");
-        //pthread_mutex_lock(&lock);
-        //printf("pthread_mutex_lock - after");
-        //if (send(sock, &cAction, sizeof(ClientAction), 0) < 0) {
-        // if(*(cA_info->dirty_pointer)){
-        //     if (send(sock, cA_info->cAction_point, sizeof(ClientAction), 0) <=0) {
-        //         perror("Send error");
-        //         exit(EXIT_FAILURE);
-        //     }
-        // //printf("pthread_mutex_unlock - before");
-        // }
-        //printf("%d %d %d\n", cA_info->cAction_point->row, cA_info->cAction_point->col, cA_info->cAction_point->action);
-        //printf("pthread_mutex_unlock - after");
         }
     }
     return NULL;
@@ -668,6 +466,7 @@ int main(int argc, char* argv[]){
     queue_start = NULL;
     queue_append(0);
     int init_path_flag = 0;
+    delay(1000);
     while(1){
         printf("curr_position:%d/%d, curr_direction:%d\n", curr_node[0],curr_node[1], curr_direction);
         if(qr_changed){
