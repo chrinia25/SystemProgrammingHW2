@@ -9,5 +9,5 @@ compile with makefile in client folder
 + 202111126 이나애
 + 202111150 이진희
 + 202111176 조수빈
-###notice
+### notice
 Server code might be outdated. Using official up-to-date code is recommended
